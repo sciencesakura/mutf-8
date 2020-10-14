@@ -2,12 +2,14 @@
   "name": "mutf-8",
   "version": "0.0.1",
   "description": "An encoder/decoder for Modified UTF-8 which is used in the Java platform such as the class file format or the object serialization.",
-  "main": "dist/index.cjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "exports": {
-    "import": "dist/index.mjs",
-    "require": "dist/index.cjs"
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
   },
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "clean": "rm -rf dist",
     "format": "prettier --print-width 120 --write src",
@@ -17,7 +19,8 @@
     "compile:esm": "tsc --module es2015   && mv dist/index.js dist/index.mjs",
     "test": "jest",
     "check": "run-s format lint test",
-    "build": "run-s clean check compile"
+    "build": "run-s clean check compile",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",

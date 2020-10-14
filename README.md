@@ -6,11 +6,20 @@ The Modified UTF-8 \(MUTF-8\) is used in the Java platform such as the class fil
 
 See [The Java Virtual Machine Specification, Java SE 15 Edition, section 4.4.7](https://docs.oracle.com/javase/specs/jvms/se15/html/jvms-4.html#jvms-4.4.7) for details.
 
+## Installation
+
+```sh
+npm install mutf-8
+```
+
 ## Usage
 
 The APIs are similar to WHATWG TextEncoder/TextDecoder.
 
 ```javascript
+import { MUtf8Decoder, MUtf8Encoder } from "mutf-8";         // ES Modules
+// const { MUtf8Decoder, MUtf8Encoder } = require("mutf-8"); // CommonJS
+
 const encoder = new MUtf8Encoder();
 const code = encoder.encode("Hello 世界! Santé🍻");
 // Uint8Array:
