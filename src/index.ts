@@ -1,3 +1,8 @@
+/**
+ * The decoder for Modified UTF-8.
+ *
+ * This API is similar to WHATWG Encoding Standard.
+ */
 export class MUtf8Decoder {
   readonly encoding = "mutf-8";
 
@@ -67,7 +72,7 @@ export class MUtf8Encoder {
   /**
    * Encodes the `input` and returns a byte array.
    */
-  encode(input: string): Uint8Array {
+  encode(input = ""): Uint8Array {
     const bin: number[] = [];
     for (const c of input) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

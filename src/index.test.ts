@@ -64,6 +64,10 @@ describe("MUtf8Decoder.decode", () => {
 describe("MUtf8Encoder.encode", () => {
   const sut = new MUtf8Encoder();
 
+  test("encode an empty string", () => {
+    expect(sut.encode()).toEqual(new Uint8Array(0));
+  });
+
   test("encode a 1-byte character", () => {
     expect(sut.encode("A")).toEqual(new Uint8Array([0x41]));
   });
@@ -120,6 +124,12 @@ describe("MUtf8Encoder.encode", () => {
 
 describe("MUtf8Encoder.encodeInto", () => {
   const sut = new MUtf8Encoder();
+
+  test("encode an empty string", () => {
+    const dest = new Uint8Array(0);
+    expect(sut.encodeInto("", dest)).toEqual({ read: 0, written: 0 });
+    expect(dest).toEqual(new Uint8Array(0));
+  });
 
   test("encode a 1-byte character", () => {
     const dest = new Uint8Array(1);
