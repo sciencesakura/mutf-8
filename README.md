@@ -1,4 +1,4 @@
-# mutf-8: Encode/Decoder for Modified UTF-8
+# mutf-8: Encoder/Decoder for Modified UTF-8
 
 ## What is the Modified UTF-8 ?
 
