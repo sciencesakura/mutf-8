@@ -51,6 +51,16 @@ export class MUtf8Decoder {
   }
 }
 
+export interface MUtf8EncoderEncodeIntoResult {
+  read: number;
+  written: number;
+}
+
+/**
+ * The encoder for Modified UTF-8.
+ *
+ * This API is similar to WHATWG Encoding Standard.
+ */
 export class MUtf8Encoder {
   readonly encoding = "mutf-8";
 
@@ -81,5 +91,42 @@ export class MUtf8Encoder {
       }
     }
     return new Uint8Array(bin);
+  }
+
+  /**
+   * Encodes the `source` to the `destination`.
+   */
+  encodeInto(source: string, destination: Uint8Array): MUtf8EncoderEncodeIntoResult {
+    const destLen = destination.length;
+    let i = 0;
+    let read = 0;
+    for (const c of source) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const code = c.codePointAt(0)!;
+      if (0x0001 <= code && code <= 0x007f) {
+        if (destLen <= i) break;
+        destination[i++] = code;
+      } else if ((0x0080 <= code && code <= 0x07ff) || code === 0x0000) {
+        if (destLen <= i + 1) break;
+        destination[i++] = 0xc0 | (code >>> 6);
+        destination[i++] = 0x80 | (0x3f & code);
+      } else if (0x0800 <= code && code <= 0xffff) {
+        if (destLen <= i + 2) break;
+        destination[i++] = 0xe0 | (code >>> 12);
+        destination[i++] = 0x80 | (0x3f & (code >>> 6));
+        destination[i++] = 0x80 | (0x3f & code);
+      } else {
+        if (destLen <= i + 5) break;
+        destination[i++] = 0xed;
+        destination[i++] = 0xa0 | ((code >>> 16) - 1);
+        destination[i++] = 0x80 | (0x3f & (code >>> 10));
+        destination[i++] = 0xed;
+        destination[i++] = 0xb0 | (0x0f & (code >>> 6));
+        destination[i++] = 0x80 | (0x3f & code);
+        read++;
+      }
+      read++;
+    }
+    return { read, written: i };
   }
 }
