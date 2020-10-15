@@ -1,5 +1,7 @@
 # mutf-8: Encoder/Decoder for Modified UTF-8
 
+![](https://github.com/sciencesakura/mutf-8/workflows/build/badge.svg)
+
 ## What is the Modified UTF-8 ?
 
 The Modified UTF-8 \(MUTF-8\) is used in the Java platform such as the class file format or the object serialization.
