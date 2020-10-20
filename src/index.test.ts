@@ -59,6 +59,11 @@ describe("MUtf8Decoder.decode", () => {
     ]);
     expect(sut.decode(src)).toBe("Hello 世界! Santé🍻");
   });
+
+  test("decode an ArrayBuffer", () => {
+    const src = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f]).buffer;
+    expect(sut.decode(src)).toBe("Hello");
+  });
 });
 
 describe("MUtf8Encoder.encode", () => {

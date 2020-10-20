@@ -1,3 +1,5 @@
+export type MUtf8DecodeSource = Uint8Array | ArrayBuffer;
+
 /**
  * The decoder for Modified UTF-8.
  *
@@ -13,38 +15,39 @@ export class MUtf8Decoder {
   /**
    * Decodes the `input` and returns a string.
    */
-  decode(input: Uint8Array): string {
-    const length = input.length;
+  decode(input: MUtf8DecodeSource): string {
+    const buf = input instanceof Uint8Array ? input : new Uint8Array(input);
+    const length = buf.length;
     const code: number[] = [];
     let p = 0;
     while (p < length) {
-      const b1 = input[p++];
+      const b1 = buf[p++];
       if (!(b1 & 0x80) && b1 !== 0) {
         // U+0001-007F
         code.push(b1);
         continue;
       } else if (!(b1 & 0x20) && p < length) {
         // U+0000, U+0080-07FF
-        const b2 = input[p++];
+        const b2 = buf[p++];
         if (!(b2 & 0x40)) {
           code.push(((b1 & 0x1f) << 6) | (b2 & 0x3f));
           continue;
         }
       } else if (!(b1 & 0x10) && p + 1 < length) {
         // U+0800-FFFF
-        const b2 = input[p++];
-        const b3 = input[p++];
+        const b2 = buf[p++];
+        const b3 = buf[p++];
         if (!(b2 & 0x40) && !(b3 & 0x40)) {
           code.push(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f));
           continue;
         }
       } else if (b1 === 0xed && p + 4 < length) {
         // U+10000-
-        const b2 = input[p++];
-        const b3 = input[p++];
-        const b4 = input[p++];
-        const b5 = input[p++];
-        const b6 = input[p++];
+        const b2 = buf[p++];
+        const b3 = buf[p++];
+        const b4 = buf[p++];
+        const b5 = buf[p++];
+        const b6 = buf[p++];
         if (!(b2 & 0x50) && !(b3 & 0x40) && b4 === 0xed && !(b5 & 0x40) && !(b6 & 0x40)) {
           code.push(0x10000 | ((b2 & 0x0f) << 16) | ((b3 & 0x3f) << 10) | ((b5 & 0x0f) << 6) | (b6 & 0x3f));
           continue;
