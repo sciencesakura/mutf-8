@@ -1,6 +1,6 @@
 # mutf-8: Encoder/Decoder for Modified UTF-8
 
-![](https://github.com/sciencesakura/mutf-8/workflows/build/badge.svg)
+![](https://github.com/sciencesakura/mutf-8/workflows/build/badge.svg) [![npm version](https://badge.fury.io/js/mutf-8.svg)](https://badge.fury.io/js/mutf-8)
 
 ## What is the Modified UTF-8 ?
 

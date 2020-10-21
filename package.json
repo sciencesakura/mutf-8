@@ -29,8 +29,11 @@
     "url": "git+https://github.com/sciencesakura/mutf-8.git"
   },
   "keywords": [
+    "charset",
+    "encoding",
     "Java",
-    "MUTF-8"
+    "MUTF-8",
+    "MUTF8"
   ],
   "author": "sciencesakura <sakurasakurascience@gmail.com>",
   "license": "MIT",
