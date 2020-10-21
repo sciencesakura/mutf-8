@@ -1,4 +1,15 @@
-export type MUtf8DecodeSource = Uint8Array | ArrayBuffer;
+export type MUtf8DecodeSource =
+  | Int8Array
+  | Int16Array
+  | Int32Array
+  | Uint8Array
+  | Uint16Array
+  | Uint32Array
+  | Uint8ClampedArray
+  | Float32Array
+  | Float64Array
+  | DataView
+  | ArrayBuffer;
 
 /**
  * The decoder for Modified UTF-8.
@@ -16,7 +27,7 @@ export class MUtf8Decoder {
    * Decodes the `input` and returns a string.
    */
   decode(input: MUtf8DecodeSource): string {
-    const buf = input instanceof Uint8Array ? input : new Uint8Array(input);
+    const buf = this.toU8Ary(input);
     const length = buf.length;
     const code: number[] = [];
     let p = 0;
@@ -56,6 +67,14 @@ export class MUtf8Decoder {
       throw new TypeError("Failed to execute 'decode' on 'TextDecoder': The encoded data was not valid.");
     }
     return code.map((c) => String.fromCodePoint(c)).join("");
+  }
+
+  private toU8Ary(input: MUtf8DecodeSource): Uint8Array {
+    if (input instanceof Uint8Array) {
+      return input;
+    } else {
+      return new Uint8Array("buffer" in input ? input.buffer : input);
+    }
   }
 }
 
