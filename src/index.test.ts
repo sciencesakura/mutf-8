@@ -1,3 +1,4 @@
+import { endianness } from "os";
 import { MUtf8Decoder, MUtf8Encoder } from "./index";
 
 describe("MUtf8Decoder.decode", () => {
@@ -58,6 +59,46 @@ describe("MUtf8Decoder.decode", () => {
       0xbb,
     ]);
     expect(sut.decode(src)).toBe("Hello 世界! Santé🍻");
+  });
+
+  test("decode Int8Array, Uint8Array and Uint8ClampedArray", () => {
+    const src = [0x48, 0x65, 0x6c, 0x6c, 0x6f, 0xe2, 0x98, 0x86];
+    const i8 = new Int8Array(src);
+    expect(sut.decode(i8)).toBe("Hello☆");
+    expect(sut.decode(i8.buffer)).toBe("Hello☆");
+    expect(sut.decode(new DataView(i8.buffer))).toBe("Hello☆");
+    const u8 = new Uint8Array(src);
+    expect(sut.decode(u8)).toBe("Hello☆");
+    expect(sut.decode(u8.buffer)).toBe("Hello☆");
+    expect(sut.decode(new DataView(u8.buffer))).toBe("Hello☆");
+    const c8 = new Uint8ClampedArray(src);
+    expect(sut.decode(c8)).toBe("Hello☆");
+    expect(sut.decode(c8.buffer)).toBe("Hello☆");
+    expect(sut.decode(new DataView(c8.buffer))).toBe("Hello☆");
+  });
+
+  test("decode Int16Array and Uint16Array", () => {
+    const src = endianness() === "BE" ? [0x4865, 0x6c6c, 0x6fe2, 0x9886] : [0x6548, 0x6c6c, 0xe26f, 0x8698];
+    const i16 = new Int16Array(src);
+    expect(sut.decode(i16)).toBe("Hello☆");
+    expect(sut.decode(i16.buffer)).toBe("Hello☆");
+    expect(sut.decode(new DataView(i16.buffer))).toBe("Hello☆");
+    const u16 = new Uint16Array(src);
+    expect(sut.decode(u16)).toBe("Hello☆");
+    expect(sut.decode(u16.buffer)).toBe("Hello☆");
+    expect(sut.decode(new DataView(u16.buffer))).toBe("Hello☆");
+  });
+
+  test("decode Int32Array and Uint32Array", () => {
+    const src = endianness() === "BE" ? [0x48656c6c, 0x6fe29886] : [0x6c6c6548, 0x8698e26f];
+    const i32 = new Int32Array(src);
+    expect(sut.decode(i32)).toBe("Hello☆");
+    expect(sut.decode(i32.buffer)).toBe("Hello☆");
+    expect(sut.decode(new DataView(i32.buffer))).toBe("Hello☆");
+    const u32 = new Uint32Array(src);
+    expect(sut.decode(u32)).toBe("Hello☆");
+    expect(sut.decode(u32.buffer)).toBe("Hello☆");
+    expect(sut.decode(new DataView(u32.buffer))).toBe("Hello☆");
   });
 });
 
