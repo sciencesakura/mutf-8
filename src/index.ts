@@ -11,23 +11,37 @@ export type MUtf8DecodeSource =
   | DataView
   | ArrayBuffer;
 
+function toU8Ary(input: MUtf8DecodeSource): Uint8Array {
+  if (input instanceof Uint8Array) {
+    return input;
+  } else {
+    return new Uint8Array("buffer" in input ? input.buffer : input);
+  }
+}
+
 /**
  * The decoder for Modified UTF-8.
  *
  * This API is similar to WHATWG Encoding Standard.
  */
 export class MUtf8Decoder {
-  readonly encoding = "mutf-8";
+  get encoding(): string {
+    return "mutf-8";
+  }
 
-  readonly fatal = true;
+  get fatal(): boolean {
+    return true;
+  }
 
-  readonly ignoreBOM = false;
+  get ignoreBOM(): boolean {
+    return false;
+  }
 
   /**
    * Decodes the `input` and returns a string.
    */
   decode(input: MUtf8DecodeSource): string {
-    const buf = this.toU8Ary(input);
+    const buf = toU8Ary(input);
     const length = buf.length;
     const code: number[] = [];
     let p = 0;
@@ -68,14 +82,6 @@ export class MUtf8Decoder {
     }
     return code.map((c) => String.fromCodePoint(c)).join("");
   }
-
-  private toU8Ary(input: MUtf8DecodeSource): Uint8Array {
-    if (input instanceof Uint8Array) {
-      return input;
-    } else {
-      return new Uint8Array("buffer" in input ? input.buffer : input);
-    }
-  }
 }
 
 export interface MUtf8EncoderEncodeIntoResult {
@@ -89,7 +95,9 @@ export interface MUtf8EncoderEncodeIntoResult {
  * This API is similar to WHATWG Encoding Standard.
  */
 export class MUtf8Encoder {
-  readonly encoding = "mutf-8";
+  get encoding(): string {
+    return "mutf-8";
+  }
 
   /**
    * Encodes the `input` and returns a byte array.
