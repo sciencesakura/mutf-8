@@ -1,3 +1,9 @@
+/**
+ * @module mutf-8
+ * @copyright 2020 sciencesakura
+ * @license MIT
+ */
+
 export type MUtf8DecodeSource =
   | Int8Array
   | Int16Array
