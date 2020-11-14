@@ -26,9 +26,9 @@ function toU8Ary(input: MUtf8DecodeSource): Uint8Array {
 }
 
 /**
- * The decoder for Modified UTF-8.
+ * The decoder for Modified UTF-8 (MUTF-8).
  *
- * This API is similar to WHATWG Encoding Standard.
+ * This API is similar to WHATWG Encoding Standard's `TextDecoder`.
  */
 export class MUtf8Decoder {
   get encoding(): string {
@@ -45,6 +45,10 @@ export class MUtf8Decoder {
 
   /**
    * Decodes the `input` and returns a string.
+   *
+   * @param input The bytes to be decoded
+   * @returns The resultant string
+   * @throws {TypeError} If the `input` is not valid as a MUTF-8 sequence
    */
   decode(input: MUtf8DecodeSource): string {
     const buf = toU8Ary(input);
@@ -96,9 +100,9 @@ export interface MUtf8EncoderEncodeIntoResult {
 }
 
 /**
- * The encoder for Modified UTF-8.
+ * The encoder for Modified UTF-8 (MUTF-8).
  *
- * This API is similar to WHATWG Encoding Standard.
+ * This API is similar to WHATWG Encoding Standard's `TextEncoder`.
  */
 export class MUtf8Encoder {
   get encoding(): string {
@@ -107,6 +111,9 @@ export class MUtf8Encoder {
 
   /**
    * Encodes the `input` and returns a byte array.
+   *
+   * @param input The string to be encoded
+   * @returns The resultant byte array
    */
   encode(input = ""): Uint8Array {
     const bin: number[] = [];
@@ -135,7 +142,11 @@ export class MUtf8Encoder {
   }
 
   /**
-   * Encodes the `source` to the `destination`.
+   * Encodes the `source` and writes the result to the `destination`.
+   *
+   * @param source      The string to be encoded
+   * @param destination The byte array to write the result to
+   * @returns The progress
    */
   encodeInto(source: string, destination: Uint8Array): MUtf8EncoderEncodeIntoResult {
     const destLen = destination.length;
