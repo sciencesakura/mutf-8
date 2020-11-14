@@ -122,10 +122,10 @@ export class MUtf8Encoder {
       const code = c.codePointAt(0)!;
       if (0x0001 <= code && code <= 0x007f) {
         bin.push(code);
-      } else if ((0x0080 <= code && code <= 0x07ff) || code === 0x0000) {
+      } else if (code <= 0x07ff) {
         bin.push(0xc0 | (code >>> 6));
         bin.push(0x80 | (0x3f & code));
-      } else if (0x0800 <= code && code <= 0xffff) {
+      } else if (code <= 0xffff) {
         bin.push(0xe0 | (code >>> 12));
         bin.push(0x80 | (0x3f & (code >>> 6)));
         bin.push(0x80 | (0x3f & code));
@@ -158,11 +158,11 @@ export class MUtf8Encoder {
       if (0x0001 <= code && code <= 0x007f) {
         if (destLen <= i) break;
         destination[i++] = code;
-      } else if ((0x0080 <= code && code <= 0x07ff) || code === 0x0000) {
+      } else if (code <= 0x07ff) {
         if (destLen <= i + 1) break;
         destination[i++] = 0xc0 | (code >>> 6);
         destination[i++] = 0x80 | (0x3f & code);
-      } else if (0x0800 <= code && code <= 0xffff) {
+      } else if (code <= 0xffff) {
         if (destLen <= i + 2) break;
         destination[i++] = 0xe0 | (code >>> 12);
         destination[i++] = 0x80 | (0x3f & (code >>> 6));
