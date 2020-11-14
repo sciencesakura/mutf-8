@@ -4,7 +4,7 @@
 
 ## What is the Modified UTF-8 ?
 
-The Modified UTF-8 \(MUTF-8\) is used in the Java platform such as the class file format or the object serialization.
+The Modified UTF-8 \(MUTF-8\) is used in the Java platform such as the class file format and the object serialization.
 
 See [The Java Virtual Machine Specification, Java SE 15 Edition, section 4.4.7](https://docs.oracle.com/javase/specs/jvms/se15/html/jvms-4.html#jvms-4.4.7) for details.
 
