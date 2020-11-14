@@ -1,4 +1,5 @@
 /.eslintrc.yml
+/.github/
 /jest.config.js
 /node_modules/
 /src/
