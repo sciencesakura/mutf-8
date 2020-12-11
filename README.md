@@ -16,7 +16,7 @@ npm install mutf-8
 
 ## Usage
 
-The APIs are similar to WHATWG TextEncoder/TextDecoder.
+The APIs are similar to [WHATWG TextEncoder/TextDecoder](https://encoding.spec.whatwg.org/).
 
 ```javascript
 import { MUtf8Decoder, MUtf8Encoder } from "mutf-8";         // ES Modules
