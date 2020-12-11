@@ -79,6 +79,19 @@ describe("MUtf8Decoder.decode", () => {
     expect(sut.decode(u32.buffer)).toBe("Hello☆");
     expect(sut.decode(new DataView(u32.buffer))).toBe("Hello☆");
   });
+
+  test("invalid input", () => {
+    expect(() => sut.decode(new Uint8Array([0x80]))).toThrow(TypeError);
+    expect(() => sut.decode(new Uint8Array([0xc0, 0x40]))).toThrow(TypeError);
+    expect(() => sut.decode(new Uint8Array([0xe0, 0x40, 0x80]))).toThrow(TypeError);
+    expect(() => sut.decode(new Uint8Array([0xe0, 0x80, 0x40]))).toThrow(TypeError);
+  });
+
+  test("unexpected end of input", () => {
+    expect(() => sut.decode(new Uint8Array([0xc0]))).toThrow(TypeError);
+    expect(() => sut.decode(new Uint8Array([0xe0]))).toThrow(TypeError);
+    expect(() => sut.decode(new Uint8Array([0xe0, 0x80]))).toThrow(TypeError);
+  });
 });
 
 describe("MUtf8Encoder.encode", () => {

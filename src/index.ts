@@ -31,6 +31,16 @@ function toU8Ary(input: MUtf8DecodeSource): Uint8Array {
  * This API is similar to WHATWG Encoding Standard's `TextDecoder`.
  */
 export class MUtf8Decoder {
+  private static ERR_PREFIX = "Failed to execute 'decode' on 'MUtf8Decoder': ";
+
+  private static invalidInput() {
+    throw new TypeError(`${MUtf8Decoder.ERR_PREFIX}Invalid input.`);
+  }
+
+  private static unexpectedEOI() {
+    throw new TypeError(`${MUtf8Decoder.ERR_PREFIX}Unexpected end of input.`);
+  }
+
   get encoding(): string {
     return "mutf-8";
   }
@@ -60,37 +70,24 @@ export class MUtf8Decoder {
       if (!(b1 & 0x80) && b1 !== 0) {
         // U+0001-007F
         code.push(b1);
-        continue;
-      } else if (!(b1 & 0x20) && p < length) {
+      } else if (b1 >>> 5 === 0b110) {
         // U+0000, U+0080-07FF
+        if (length <= p) MUtf8Decoder.unexpectedEOI();
         const b2 = buf[p++];
-        if (!(b2 & 0x40)) {
-          code.push(((b1 & 0x1f) << 6) | (b2 & 0x3f));
-          continue;
-        }
-      } else if (!(b1 & 0x10) && p + 1 < length) {
-        // U+0800-FFFF
-        const b2 = buf[p++];
-        const b3 = buf[p++];
-        if (!(b2 & 0x40) && !(b3 & 0x40)) {
-          code.push(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f));
-          continue;
-        }
-      } else if (b1 === 0xed && p + 4 < length) {
-        // U+10000-
+        if (b2 >>> 6 !== 0b10) MUtf8Decoder.invalidInput();
+        code.push(((b1 & 0x1f) << 6) | (b2 & 0x3f));
+      } else if (b1 >>> 4 === 0b1110) {
+        // U+0800-
+        if (length <= p + 1) MUtf8Decoder.unexpectedEOI();
         const b2 = buf[p++];
         const b3 = buf[p++];
-        const b4 = buf[p++];
-        const b5 = buf[p++];
-        const b6 = buf[p++];
-        if (!(b2 & 0x50) && !(b3 & 0x40) && b4 === 0xed && !(b5 & 0x40) && !(b6 & 0x40)) {
-          code.push(0x10000 | ((b2 & 0x0f) << 16) | ((b3 & 0x3f) << 10) | ((b5 & 0x0f) << 6) | (b6 & 0x3f));
-          continue;
-        }
+        if (b2 >>> 6 !== 0b10 || b3 >>> 6 !== 0b10) MUtf8Decoder.invalidInput();
+        code.push(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f));
+      } else {
+        MUtf8Decoder.invalidInput();
       }
-      throw new TypeError("Failed to execute 'decode' on 'TextDecoder': The encoded data was not valid.");
     }
-    return code.map((c) => String.fromCodePoint(c)).join("");
+    return code.map((c) => String.fromCharCode(c)).join("");
   }
 }
 
