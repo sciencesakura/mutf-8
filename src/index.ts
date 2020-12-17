@@ -63,31 +63,31 @@ export class MUtf8Decoder {
   decode(input: MUtf8DecodeSource): string {
     const buf = toU8Ary(input);
     const length = buf.length;
-    const code: number[] = [];
+    const chars: string[] = [];
     let p = 0;
     while (p < length) {
       const b1 = buf[p++];
       if (!(b1 & 0x80) && b1 !== 0) {
         // U+0001-007F
-        code.push(b1);
+        chars.push(String.fromCharCode(b1));
       } else if (b1 >>> 5 === 0b110) {
         // U+0000, U+0080-07FF
         if (length <= p) MUtf8Decoder.unexpectedEOI();
         const b2 = buf[p++];
         if (b2 >>> 6 !== 0b10) MUtf8Decoder.invalidInput();
-        code.push(((b1 & 0x1f) << 6) | (b2 & 0x3f));
+        chars.push(String.fromCharCode(((b1 & 0x1f) << 6) | (b2 & 0x3f)));
       } else if (b1 >>> 4 === 0b1110) {
         // U+0800-
         if (length <= p + 1) MUtf8Decoder.unexpectedEOI();
         const b2 = buf[p++];
         const b3 = buf[p++];
         if (b2 >>> 6 !== 0b10 || b3 >>> 6 !== 0b10) MUtf8Decoder.invalidInput();
-        code.push(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f));
+        chars.push(String.fromCharCode(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f)));
       } else {
         MUtf8Decoder.invalidInput();
       }
     }
-    return code.map((c) => String.fromCharCode(c)).join("");
+    return chars.join("");
   }
 }
 
