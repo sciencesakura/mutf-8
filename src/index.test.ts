@@ -1,8 +1,34 @@
 import { endianness } from "os";
 import { MUtf8Decoder, MUtf8Encoder } from "./index";
 
+describe("MUtf8Decoder.constructor", () => {
+  test("no arguments", () => {
+    const instance = new MUtf8Decoder();
+    expect(instance).not.toBeNull();
+  });
+
+  test("label: 'mutf-8' is valid", () => {
+    const instance = new MUtf8Decoder("mutf-8");
+    expect(instance).not.toBeNull();
+  });
+
+  test("label: 'MUTF8' is valid", () => {
+    const instance = new MUtf8Decoder("MUTF8");
+    expect(instance).not.toBeNull();
+  });
+
+  test("label: 'utf-8' is invalid", () => {
+    expect(() => new MUtf8Decoder("utf-8")).toThrow(RangeError);
+  });
+});
+
 describe("MUtf8Decoder.decode", () => {
   const sut = new MUtf8Decoder();
+
+  test("decode an empty", () => {
+    const src = new Uint8Array([]);
+    expect(sut.decode(src)).toBe("");
+  });
 
   test("decode a 1-byte character", () => {
     const src = new Uint8Array([0x41]);
@@ -97,8 +123,8 @@ describe("MUtf8Decoder.decode", () => {
 describe("MUtf8Encoder.encode", () => {
   const sut = new MUtf8Encoder();
 
-  test("encode an empty string", () => {
-    expect(sut.encode()).toEqual(new Uint8Array(0));
+  test("encode an empty", () => {
+    expect(sut.encode("")).toEqual(new Uint8Array(0));
   });
 
   test("encode a 1-byte character", () => {
@@ -137,7 +163,7 @@ describe("MUtf8Encoder.encode", () => {
 describe("MUtf8Encoder.encodeInto", () => {
   const sut = new MUtf8Encoder();
 
-  test("encode an empty string", () => {
+  test("encode an empty", () => {
     const dest = new Uint8Array(0);
     expect(sut.encodeInto("", dest)).toEqual({ read: 0, written: 0 });
     expect(dest).toEqual(new Uint8Array(0));
