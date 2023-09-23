@@ -1,12 +1,14 @@
 root: true
 env:
-  es6: true
-parser: '@typescript-eslint/parser'
+  es2018: true
+parser: "@typescript-eslint/parser"
 parserOptions:
-  sourceType: 'module'
+  project:
+    - "./tsconfig.json"
+    - "./tsconfig.test.json"
 plugins:
-  - '@typescript-eslint'
+  - "@typescript-eslint"
 extends:
-  - 'eslint:recommended'
-  - 'plugin:@typescript-eslint/recommended'
-  - 'prettier'
+  - "eslint:recommended"
+  - "plugin:@typescript-eslint/recommended-type-checked"
+  - "prettier"
