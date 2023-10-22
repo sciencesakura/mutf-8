@@ -6,7 +6,7 @@
 
 The Modified UTF-8 \(MUTF-8\) is used in the Java platform such as the class file format and the object serialization.
 
-See [The Java Virtual Machine Specification, Java SE 16 Edition, section 4.4.7](https://docs.oracle.com/javase/specs/jvms/se16/html/jvms-4.html#jvms-4.4.7) for details.
+See [The Java Virtual Machine Specification, Java SE 21 Edition, section 4.4.7](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7) for details.
 
 ## Installation
 
@@ -35,6 +35,8 @@ const text = decoder.decode(code);
 // string:
 //   Hello 世界! Santé🍻
 ```
+
+See [API reference](https://sciencesakura.github.io/mutf-8/) for details.
 
 ## Licence
 
