@@ -4,131 +4,152 @@
  * @license MIT
  */
 
-export type MUtf8BufferSource =
-  | Int8Array
-  | Int16Array
-  | Int32Array
-  | Uint8Array
-  | Uint16Array
-  | Uint32Array
-  | Uint8ClampedArray
-  | Float32Array
-  | Float64Array
-  | DataView
-  | ArrayBuffer;
-
-const ERR_DECODE_FAILED = "MUtf8Decoder.decode: Decoding failed.";
-
-function toU8Ary(input: MUtf8BufferSource): Uint8Array {
-  if (input instanceof Uint8Array) {
-    return input;
-  } else {
-    return new Uint8Array("buffer" in input ? input.buffer : input);
-  }
-}
-
 /**
- * The decoder for Modified UTF-8 (MUTF-8).
+ * The decoder for Modified UTF-8.
  *
- * This interface is similar to [WHATWG Encoding](https://encoding.spec.whatwg.org/).
+ * @example
+ * ```ts
+ * const src = new Uint8Array([
+ *   0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0xe4, 0xb8,
+ *   0x96, 0xe7, 0x95, 0x8c, 0x21,
+ * ]);
+ * const decoder = new MUtf8Decoder();
+ * const text = decoder.decode(src);
+ * // Hello 世界!
+ * ```
+ *
+ * @see {@link https://encoding.spec.whatwg.org/}
  */
-export class MUtf8Decoder {
+export class MUtf8Decoder implements TextDecoder {
+  #fatal: boolean;
+
+  #ignoreBOM: boolean;
+
   /**
-   * @returns `"mutf-8"`
+   * @returns Always `"mutf-8"`.
    */
   get encoding(): string {
     return "mutf-8";
   }
 
   /**
-   * @returns `true`
+   * @returns `true` if error mode is fatal, otherwise `false`.
    */
   get fatal(): boolean {
-    return true;
+    return this.#fatal;
   }
 
   /**
-   * @returns `false`
+   * @returns Whether to ignore the BOM or not.
    */
   get ignoreBOM(): boolean {
-    return false;
+    return this.#ignoreBOM;
   }
 
   /**
-   * @param label   The label of the encoder. This must be `"mutf-8"` or `"mutf8"`.
-   * @param options The options. This parameter is ignored.
+   * @param label   - The label of the encoder. Must be `"mutf-8"` or `"mutf8"`.
+   * @param options - The options.
    * @throws {RangeError} If the `label` is invalid value.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(label = "mutf-8", options: unknown = {}) {
-    const normalizedLabel = label?.toLowerCase?.();
+  constructor(label: string = "mutf-8", options: TextDecoderOptions = {}) {
+    const normalizedLabel = label.toLowerCase();
     if (normalizedLabel !== "mutf-8" && normalizedLabel !== "mutf8") {
       throw new RangeError(`MUtf8Decoder.constructor: '${label}' is not supported.`);
     }
+    this.#fatal = options.fatal ?? false;
+    this.#ignoreBOM = options.ignoreBOM ?? false;
   }
 
   /**
    * Decodes the specified bytes.
    *
-   * @param input   The bytes to be decoded.
-   * @param options The options. This parameter is ignored.
+   * @param input   - The bytes to be decoded.
+   * @param options - The options. This parameter is ignored.
    * @returns The resultant string.
-   * @throws {TypeError} If the `input` is invalid bytes.
+   * @throws {TypeError} If {@link fatal} is `true` and the `input` is invalid bytes.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  decode(input: MUtf8BufferSource, options: unknown = {}): string {
-    const buf = toU8Ary(input);
+  decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
+    const buf = input instanceof Uint8Array ? input : new Uint8Array("buffer" in input ? input.buffer : input);
     const length = buf.length;
-    const chars: string[] = [];
+    const result: string[] = [];
     let p = 0;
     while (p < length) {
       const b1 = buf[p++];
       if (!(b1 & 0x80) && b1 !== 0) {
         // U+0001-007F
-        chars.push(String.fromCharCode(b1));
+        result.push(String.fromCharCode(b1));
       } else if (b1 >>> 5 === 0b110) {
         // U+0000, U+0080-07FF
-        if (length <= p) throw new TypeError(ERR_DECODE_FAILED);
+        if (length <= p) {
+          this.#handleError(result);
+          continue;
+        }
         const b2 = buf[p++];
-        if (b2 >>> 6 !== 0b10) throw new TypeError(ERR_DECODE_FAILED);
-        chars.push(String.fromCharCode(((b1 & 0x1f) << 6) | (b2 & 0x3f)));
+        if (b2 >>> 6 !== 0b10) {
+          this.#handleError(result);
+          continue;
+        }
+        result.push(String.fromCharCode(((b1 & 0x1f) << 6) | (b2 & 0x3f)));
       } else if (b1 >>> 4 === 0b1110) {
         // U+0800-
-        if (length <= p + 1) throw new TypeError(ERR_DECODE_FAILED);
+        if (length <= p + 1) {
+          this.#handleError(result);
+          continue;
+        }
         const b2 = buf[p++];
         const b3 = buf[p++];
-        if (b2 >>> 6 !== 0b10 || b3 >>> 6 !== 0b10) throw new TypeError(ERR_DECODE_FAILED);
-        chars.push(String.fromCharCode(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f)));
+        if (b2 >>> 6 !== 0b10 || b3 >>> 6 !== 0b10) {
+          this.#handleError(result);
+          continue;
+        }
+        if (b1 === 0xef && b2 === 0xbb && b3 === 0xbf && p == 3 && !this.ignoreBOM) {
+          // slip a BOM `EF BB BF`
+          continue;
+        }
+        result.push(String.fromCharCode(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f)));
       } else {
-        throw new TypeError(ERR_DECODE_FAILED);
+        this.#handleError(result);
       }
     }
-    return chars.join("");
+    return result.join("");
   }
-}
 
-export interface MUtf8EncoderEncodeIntoResult {
-  read: number;
-  written: number;
+  #handleError(result: string[]) {
+    if (this.fatal) {
+      throw new TypeError("MUtf8Decoder.decode: Decoding failed.");
+    }
+    result.push("\ufffd");
+  }
 }
 
 /**
  * The encoder for Modified UTF-8 (MUTF-8).
  *
- * This interface is similar to [WHATWG Encoding](https://encoding.spec.whatwg.org/).
+ * @example
+ * ```ts
+ * const encoder = new MUtf8Encoder();
+ * const code = encoder.encode("Hello 世界!");
+ * // Uint8Array [
+ * //   0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0xe4, 0xb8,
+ * //   0x96, 0xe7, 0x95, 0x8c, 0x21,
+ * // ]
+ * ```
+ *
+ * @see {@link https://encoding.spec.whatwg.org/}
  */
-export class MUtf8Encoder {
+export class MUtf8Encoder implements TextEncoder {
   /**
-   * @returns `"mutf-8"`
+   * @returns Always `"mutf-8"`.
    */
   get encoding(): string {
     return "mutf-8";
   }
 
   /**
-   * Encodes the specified string.
+   * Encodes the specified string in MUTF-8.
    *
-   * @param input The string to be encoded.
+   * @param input - The string to be encoded.
    * @returns The resultant bytes.
    */
   encode(input = ""): Uint8Array {
@@ -158,13 +179,13 @@ export class MUtf8Encoder {
   }
 
   /**
-   * Encodes the specified string and stores the result to the specified array.
+   * Encodes the specified string in MUTF-8 and stores the result to the specified array.
    *
-   * @param source      The string to be encoded.
-   * @param destination The bytes to be stored the result.
+   * @param source      - The string to be encoded.
+   * @param destination - The bytes to be stored the result.
    * @returns The progress.
    */
-  encodeInto(source: string, destination: Uint8Array): MUtf8EncoderEncodeIntoResult {
+  encodeInto(source: string, destination: Uint8Array): TextEncoderEncodeIntoResult {
     const destLen = destination.length;
     let i = 0;
     let read = 0;
