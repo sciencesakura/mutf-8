@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es2022", "dom"],
+    "lib": ["es2022"],
     "moduleResolution": "node",
     "outDir": "dist",
     "strict": true,
