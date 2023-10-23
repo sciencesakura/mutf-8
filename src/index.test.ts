@@ -158,14 +158,14 @@ describe("MUtf8Decoder.decode", () => {
   });
 
   test("fatal: detected unexpected end when fatal is true", () => {
-    const decoder = new MUtf8Decoder("mutf-8", {fatal:true});
+    const decoder = new MUtf8Decoder("mutf-8", { fatal: true });
     expect(() => decoder.decode(new Uint8Array([0x61, 0xc0]))).toThrow(TypeError);
     expect(() => decoder.decode(new Uint8Array([0x61, 0xe0]))).toThrow(TypeError);
     expect(() => decoder.decode(new Uint8Array([0x61, 0xe0, 0x80]))).toThrow(TypeError);
   });
 
   test("fatal: detected unexpected end when fatal is false", () => {
-    const decoder = new MUtf8Decoder("mutf-8", {fatal:false});
+    const decoder = new MUtf8Decoder("mutf-8", { fatal: false });
     expect(decoder.decode(new Uint8Array([0x61, 0xc0]))).toBe("a\ufffd");
     expect(decoder.decode(new Uint8Array([0x61, 0xe0]))).toBe("a\ufffd");
     expect(decoder.decode(new Uint8Array([0x61, 0xe0, 0x80]))).toBe("a\ufffd\ufffd");
