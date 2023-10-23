@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es2022", "dom"],
+    "lib": ["es2022"],
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,

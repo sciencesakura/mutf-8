@@ -5,6 +5,37 @@
  */
 
 /**
+ * The options for decoder.
+ */
+export interface TextDecoderOptions {
+  /** `true` to stop processing when an error occurs, `false` otherwise. */
+  fatal?: boolean;
+
+  /** Whther to ignore the BOM or not. */
+  ignoreBOM?: boolean;
+}
+
+/**
+ * The options for decoding.
+ */
+export interface TextDecodeOptions {
+  stream?: boolean;
+}
+
+/**
+ * The result of encoding.
+ */
+export interface TextEncoderEncodeIntoResult {
+  /** The number of converted code units of source. */
+  read: number;
+
+  /** The number of bytes modified in destination. */
+  written: number;
+}
+
+type AllowSharedBufferSource = ArrayBuffer | SharedArrayBuffer | ArrayBufferView;
+
+/**
  * The decoder for Modified UTF-8.
  *
  * @example
@@ -20,7 +51,7 @@
  *
  * @see {@link https://encoding.spec.whatwg.org/}
  */
-export class MUtf8Decoder implements TextDecoder {
+export class MUtf8Decoder {
   #fatal: boolean;
 
   #ignoreBOM: boolean;
@@ -138,7 +169,7 @@ export class MUtf8Decoder implements TextDecoder {
  *
  * @see {@link https://encoding.spec.whatwg.org/}
  */
-export class MUtf8Encoder implements TextEncoder {
+export class MUtf8Encoder {
   /**
    * @returns Always `"mutf-8"`.
    */
