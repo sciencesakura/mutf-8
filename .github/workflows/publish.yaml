@@ -1,7 +1,7 @@
-name: check
-on: pull_request
+name: publish
+on: workflow_dispatch
 jobs:
-  check:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -9,8 +9,10 @@ jobs:
         with:
           node-version: 18
           cache: npm
+          registry-url: https://registry.npmjs.org
       - name: Install dependencies
         run: npm ci --ignore-scripts=true
-      - name: Run check
-        run: npm run check:ci
-  
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
