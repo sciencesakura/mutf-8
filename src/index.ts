@@ -186,7 +186,6 @@ export class MUtf8Encoder {
   encode(input = ""): Uint8Array {
     const bin: number[] = [];
     for (const c of input) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const code = c.codePointAt(0)!;
       if (0x0001 <= code && code <= 0x007f) {
         bin.push(code);
@@ -221,7 +220,6 @@ export class MUtf8Encoder {
     let i = 0;
     let read = 0;
     for (const c of source) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const code = c.codePointAt(0)!;
       if (0x0001 <= code && code <= 0x007f) {
         if (destLen <= i) break;
