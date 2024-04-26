@@ -18,7 +18,7 @@
   "sideEffects": false,
   "scripts": {
     "clean": "rm -rf dist",
-    "format": "prettier --print-width 120 --write src",
+    "format": "prettier --write src",
     "lint": "eslint --fix src",
     "lint:ci": "eslint src",
     "compile": "run-s compile:*",
