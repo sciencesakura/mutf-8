@@ -1,6 +1,6 @@
-/.eslintrc.yml
+/.editorconfig
 /.github/
-/docs/
+/eslint.config.mjs
 /jest.config.js
 /node_modules/
 /src/
