@@ -33,7 +33,10 @@ export interface TextEncoderEncodeIntoResult {
   written: number;
 }
 
-type AllowSharedBufferSource = ArrayBuffer | SharedArrayBuffer | ArrayBufferView;
+/**
+ * The type of buffer source that can be used in the decoder.
+ */
+export type AllowSharedBufferSource = ArrayBuffer | SharedArrayBuffer | ArrayBufferView;
 
 /**
  * The decoder for Modified UTF-8.
