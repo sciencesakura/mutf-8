@@ -102,7 +102,6 @@ export class MUtf8Decoder {
    * @returns The resultant string.
    * @throws {TypeError} If {@link fatal} is `true` and the `input` is invalid bytes.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
     const buf = input instanceof Uint8Array ? input : new Uint8Array("buffer" in input ? input.buffer : input);
     const length = buf.length;

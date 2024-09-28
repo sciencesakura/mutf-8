@@ -1,6 +1,6 @@
 /.editorconfig
 /.github/
-/eslint.config.mjs
+/biome.json
 /jest.config.js
 /node_modules/
 /src/
