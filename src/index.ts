@@ -122,6 +122,7 @@ export class MUtf8Decoder {
         const b2 = buf[p++];
         if ((b2 & 0xc0) !== 0x80) {
           result.push(this.#handleError());
+          p--;
           continue;
         }
         result.push(String.fromCharCode(((b1 & 0x1f) << 6) | (b2 & 0x3f)));
@@ -132,9 +133,15 @@ export class MUtf8Decoder {
           continue;
         }
         const b2 = buf[p++];
-        const b3 = buf[p++];
-        if ((b2 & 0xc0) !== 0x80 || (b3 & 0xc0) !== 0x80) {
+        if ((b2 & 0xc0) !== 0x80) {
           result.push(this.#handleError());
+          p--;
+          continue;
+        }
+        const b3 = buf[p++];
+        if ((b3 & 0xc0) !== 0x80) {
+          result.push(this.#handleError());
+          p -= 2;
           continue;
         }
         if (p === 3 && b1 === 0xef && b2 === 0xbb && b3 === 0xbf && !this.ignoreBOM) {
