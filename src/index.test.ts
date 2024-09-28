@@ -152,9 +152,9 @@ describe("MUtf8Decoder.decode", () => {
   test("fatal: detected invalid bytes when fatal is false", () => {
     const decoder = new MUtf8Decoder("mutf-8", { fatal: false });
     expect(decoder.decode(new Uint8Array([0x61, 0x80, 0x62]))).toBe("a\ufffdb");
-    expect(decoder.decode(new Uint8Array([0x61, 0xc0, 0x40, 0x62]))).toBe("a\ufffdb");
-    expect(decoder.decode(new Uint8Array([0x61, 0xe0, 0x40, 0x80, 0x62]))).toBe("a\ufffdb");
-    expect(decoder.decode(new Uint8Array([0x61, 0xe0, 0x80, 0x40, 0x62]))).toBe("a\ufffdb");
+    expect(decoder.decode(new Uint8Array([0x61, 0xc0, 0x40, 0x62]))).toBe("a\ufffd@b");
+    expect(decoder.decode(new Uint8Array([0x61, 0xe0, 0x40, 0x80, 0x62]))).toBe("a\ufffd@\ufffdb");
+    expect(decoder.decode(new Uint8Array([0x61, 0xe0, 0x80, 0x40, 0x62]))).toBe("a\ufffd\ufffd@b");
   });
 
   test("fatal: detected unexpected end when fatal is true", () => {
