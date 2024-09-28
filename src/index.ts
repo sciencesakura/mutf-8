@@ -113,47 +113,47 @@ export class MUtf8Decoder {
       if (!(b1 & 0x80) && b1 !== 0) {
         // U+0001-007F
         result.push(String.fromCharCode(b1));
-      } else if (b1 >>> 5 === 0b110) {
+      } else if ((b1 & 0xe0) === 0xc0) {
         // U+0000, U+0080-07FF
         if (length <= p) {
-          this.#handleError(result);
+          result.push(this.#handleError());
           continue;
         }
         const b2 = buf[p++];
-        if (b2 >>> 6 !== 0b10) {
-          this.#handleError(result);
+        if ((b2 & 0xc0) !== 0x80) {
+          result.push(this.#handleError());
           continue;
         }
         result.push(String.fromCharCode(((b1 & 0x1f) << 6) | (b2 & 0x3f)));
-      } else if (b1 >>> 4 === 0b1110) {
-        // U+0800-
+      } else if ((b1 & 0xf0) === 0xe0) {
+        // U+0800-FFFF
         if (length <= p + 1) {
-          this.#handleError(result);
+          result.push(this.#handleError());
           continue;
         }
         const b2 = buf[p++];
         const b3 = buf[p++];
-        if (b2 >>> 6 !== 0b10 || b3 >>> 6 !== 0b10) {
-          this.#handleError(result);
+        if ((b2 & 0xc0) !== 0x80 || (b3 & 0xc0) !== 0x80) {
+          result.push(this.#handleError());
           continue;
         }
-        if (b1 === 0xef && b2 === 0xbb && b3 === 0xbf && p == 3 && !this.ignoreBOM) {
+        if (p === 3 && b1 === 0xef && b2 === 0xbb && b3 === 0xbf && !this.ignoreBOM) {
           // slip a BOM `EF BB BF`
           continue;
         }
         result.push(String.fromCharCode(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f)));
       } else {
-        this.#handleError(result);
+        result.push(this.#handleError());
       }
     }
     return result.join("");
   }
 
-  #handleError(result: string[]) {
+  #handleError() {
     if (this.fatal) {
       throw new TypeError("MUtf8Decoder.decode: Decoding failed.");
     }
-    result.push("\ufffd");
+    return "\ufffd";
   }
 }
 
