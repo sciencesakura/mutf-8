@@ -1,4 +1,4 @@
-import { endianness } from "os";
+import { endianness } from "node:os";
 import { MUtf8Decoder, MUtf8Encoder } from "./index";
 
 describe("MUtf8Decoder.constructor", () => {
@@ -68,7 +68,7 @@ describe("MUtf8Decoder.decode", () => {
 
   test("decode a string", () => {
     const decoder = new MUtf8Decoder();
-    // prettier-ignore
+    // biome-ignore format:
     const src = new Uint8Array([
       0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0xe4, 0xb8,
       0x96, 0xe7, 0x95, 0x8c, 0x21, 0x20, 0x53, 0x61,
@@ -80,7 +80,7 @@ describe("MUtf8Decoder.decode", () => {
 
   test("ignoreBOM: decode a string when ignoreBOM is true", () => {
     const decoder = new MUtf8Decoder("mutf-8", { ignoreBOM: true });
-    // prettier-ignore
+    // biome-ignore format:
     const src = new Uint8Array([
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
@@ -90,7 +90,7 @@ describe("MUtf8Decoder.decode", () => {
 
   test("ignoreBOM: decode a string when ignoreBOM is false", () => {
     const decoder = new MUtf8Decoder("mutf-8", { ignoreBOM: false });
-    // prettier-ignore
+    // biome-ignore format:
     const src = new Uint8Array([
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
@@ -200,7 +200,7 @@ describe("MUtf8Encoder.encode", () => {
   });
 
   test("encode a string", () => {
-    // prettier-ignore
+    // biome-ignore format:
     expect(sut.encode("Hello 世界! Santé🍻")).toEqual(
       new Uint8Array([
         0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0xe4, 0xb8,
@@ -254,7 +254,7 @@ describe("MUtf8Encoder.encodeInto", () => {
   test("encode a string", () => {
     const dest = new Uint8Array(26);
     expect(sut.encodeInto("Hello 世界! Santé🍻", dest)).toEqual({ read: 17, written: 26 });
-    // prettier-ignore
+    // biome-ignore format:
     expect(dest).toEqual(
       new Uint8Array([
         0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0xe4, 0xb8,

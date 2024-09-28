@@ -85,7 +85,7 @@ export class MUtf8Decoder {
    * @param options - The options.
    * @throws {RangeError} If the `label` is invalid value.
    */
-  constructor(label: string = "mutf-8", options: TextDecoderOptions = {}) {
+  constructor(label = "mutf-8", options: TextDecoderOptions = {}) {
     const normalizedLabel = label.toLowerCase();
     if (normalizedLabel !== "mutf-8" && normalizedLabel !== "mutf8") {
       throw new RangeError(`MUtf8Decoder.constructor: '${label}' is not supported.`);
@@ -102,7 +102,6 @@ export class MUtf8Decoder {
    * @returns The resultant string.
    * @throws {TypeError} If {@link fatal} is `true` and the `input` is invalid bytes.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
     const buf = input instanceof Uint8Array ? input : new Uint8Array("buffer" in input ? input.buffer : input);
     const length = buf.length;
