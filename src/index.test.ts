@@ -1,5 +1,5 @@
 import { endianness } from "node:os";
-import { MUtf8Decoder, MUtf8Encoder } from "./index";
+import { MUtf8Decoder, MUtf8DecoderStream, MUtf8Encoder, MUtf8EncoderStream } from "./index";
 
 describe("MUtf8Decoder.constructor", () => {
   test("without arguments", () => {
@@ -277,5 +277,45 @@ describe("MUtf8Encoder.encodeInto", () => {
     expect(dest).toEqual(
       new Uint8Array([0xe3, 0x81, 0x93, 0xe3, 0x82, 0x93, 0xe3, 0x81, 0xab, 0xe3, 0x81, 0xa1, 0xe3, 0x81, 0xaf, 0x00]),
     );
+  });
+});
+
+describe("MUtf8EncoderStream", () => {
+  test("encode a string", async () => {
+    const encoder = new MUtf8EncoderStream();
+    const writer = encoder.writable.getWriter();
+    writer.write("Hello");
+    writer.write(" 世界!");
+    writer.write(" Santé🍻");
+    writer.close();
+
+    const chunks: Uint8Array[] = [];
+    for await (const value of encoder.readable) {
+      chunks.push(value);
+    }
+
+    expect(chunks).toEqual([
+      new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f]),
+      new Uint8Array([0x20, 0xe4, 0xb8, 0x96, 0xe7, 0x95, 0x8c, 0x21]),
+      new Uint8Array([0x20, 0x53, 0x61, 0x6e, 0x74, 0xc3, 0xa9, 0xed, 0xa0, 0xbc, 0xed, 0xbd, 0xbb]),
+    ]);
+  });
+});
+
+describe("MUtf8DecoderStream", () => {
+  test("decode a string", async () => {
+    const decoder = new MUtf8DecoderStream();
+    const writer = decoder.writable.getWriter();
+    writer.write(new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f]));
+    writer.write(new Uint8Array([0x20, 0xe4, 0xb8, 0x96, 0xe7, 0x95, 0x8c, 0x21]));
+    writer.write(new Uint8Array([0x20, 0x53, 0x61, 0x6e, 0x74, 0xc3, 0xa9, 0xed, 0xa0, 0xbc, 0xed, 0xbd, 0xbb]));
+    writer.close();
+
+    const chunks: string[] = [];
+    for await (const value of decoder.readable) {
+      chunks.push(value);
+    }
+
+    expect(chunks).toEqual(["Hello", " 世界!", " Santé🍻"]);
   });
 });

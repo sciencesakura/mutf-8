@@ -257,3 +257,95 @@ export class MUtf8Encoder {
     return { read, written: i };
   }
 }
+
+/**
+ * The encoder stream for Modified UTF-8 (MUTF-8).
+ *
+ * @example
+ * ```ts
+ * textStream.pipeThrough(new MUtf8EncoderStream()).pipeTo(byteStream);
+ * ```
+ *
+ * @see {@link https://encoding.spec.whatwg.org/}
+ */
+export class MUtf8EncoderStream extends TransformStream<string, Uint8Array> implements TextEncoderStream {
+  /**
+   * @returns Always `"mutf-8"`.
+   */
+  get encoding(): string {
+    return "mutf-8";
+  }
+
+  constructor() {
+    let encoder: MUtf8Encoder;
+
+    super({
+      start() {
+        encoder = new MUtf8Encoder();
+      },
+      transform(chunk, controller) {
+        controller.enqueue(encoder.encode(chunk));
+      },
+    });
+  }
+}
+
+/**
+ * The decoder stream for Modified UTF-8.
+ *
+ * @example
+ * ```ts
+ * byteStream.pipeThrough(new MUtf8DecoderStream()).pipeTo(textStream);
+ * ```
+ */
+export class MUtf8DecoderStream extends TransformStream<Uint8Array, string> implements TextDecoderStream {
+  #fatal: boolean;
+
+  #ignoreBOM: boolean;
+
+  /**
+   * @returns Always `"mutf-8"`.
+   */
+  get encoding(): string {
+    return "mutf-8";
+  }
+
+  /**
+   * @returns `true` if error mode is fatal, otherwise `false`.
+   */
+  get fatal(): boolean {
+    return this.#fatal;
+  }
+
+  /**
+   * @returns Whether to ignore the BOM or not.
+   */
+  get ignoreBOM(): boolean {
+    return this.#ignoreBOM;
+  }
+
+  /**
+   * @param label   - The label of the encoder. Must be `"mutf-8"` or `"mutf8"`.
+   * @param options - The options.
+   * @throws {RangeError} If the `label` is invalid value.
+   */
+  constructor(label = "mutf-8", options: TextDecoderOptions = {}) {
+    let decoder: MUtf8Decoder;
+
+    super({
+      start() {
+        decoder = new MUtf8Decoder(label, options);
+      },
+      transform(chunk, controller) {
+        controller.enqueue(decoder.decode(chunk));
+      },
+    });
+
+    const normalizedLabel = label.toLowerCase();
+    if (normalizedLabel !== "mutf-8" && normalizedLabel !== "mutf8") {
+      throw new RangeError(`MUtf8DecoderStream.constructor: '${label}' is not supported.`);
+    }
+    this.#fatal = options.fatal ?? false;
+    this.#ignoreBOM = options.ignoreBOM ?? false;
+  }
+}
