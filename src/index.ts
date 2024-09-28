@@ -85,7 +85,7 @@ export class MUtf8Decoder {
    * @param options - The options.
    * @throws {RangeError} If the `label` is invalid value.
    */
-  constructor(label: string = "mutf-8", options: TextDecoderOptions = {}) {
+  constructor(label = "mutf-8", options: TextDecoderOptions = {}) {
     const normalizedLabel = label.toLowerCase();
     if (normalizedLabel !== "mutf-8" && normalizedLabel !== "mutf8") {
       throw new RangeError(`MUtf8Decoder.constructor: '${label}' is not supported.`);
