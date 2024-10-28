@@ -17,13 +17,13 @@
   "types": "./dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "lint": "biome check --write src",
     "lint:ci": "biome check src",
     "compile": "run-s compile:*",
-    "compile:cjs": "tsc --module commonjs  && mv dist/index.js dist/index.cjs",
-    "compile:esm": "tsc --module es2015 -d && mv dist/index.js dist/index.mjs",
-    "test": "jest",
+    "compile:cjs": "tsc -m node16 && renamer --find '/\\.js$/' --replace .cjs 'dist/**'",
+    "compile:esm": "tsc -d        && renamer --find '/\\.js$/' --replace .mjs 'dist/**'",
+    "test": "vitest run",
     "check": "run-s lint test",
     "check:ci": "run-s lint:ci test",
     "build": "run-s clean check compile",
@@ -50,14 +50,15 @@
   "homepage": "https://github.com/sciencesakura/mutf-8",
   "devDependencies": {
     "@biomejs/biome": "^1.9.2",
-    "@types/jest": "^29.5.13",
-    "jest": "^29.7.0",
-    "npm-run-all2": "^6.2.3",
-    "ts-jest": "^29.2.5",
+    "@types/node": "^20.17.1",
+    "npm-run-all2": "^7.0.1",
+    "renamer": "^5.0.2",
+    "rimraf": "^6.0.1",
     "typedoc": "^0.26.7",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.4"
   },
   "volta": {
-    "node": "20.12.2"
+    "node": "20.18.0"
   }
 }

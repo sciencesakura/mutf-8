@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "lib": ["es2022"],
-    "moduleResolution": "node",
+    "module": "es2015",
     "outDir": "dist",
+    "skipLibCheck": true,
     "strict": true,
     "target": "es2018"
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.ts"]
+  "exclude": ["src/**/*.test.*"]
 }

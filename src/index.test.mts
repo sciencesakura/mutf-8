@@ -1,4 +1,5 @@
 import { endianness } from "node:os";
+import { describe, expect, test } from "vitest";
 import { MUtf8Decoder, MUtf8Encoder } from "./index";
 
 describe("MUtf8Decoder.constructor", () => {

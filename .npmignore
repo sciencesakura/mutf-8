@@ -1,7 +1,7 @@
-/.editorconfig
-/.github/
-/biome.json
-/jest.config.js
-/node_modules/
-/src/
-/tsconfig.*
+.github/
+node_modules/
+src/
+
+.editorconfig
+biome.json
+tsconfig.*
