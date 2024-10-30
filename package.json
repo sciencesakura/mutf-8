@@ -23,6 +23,7 @@
     "compile": "run-s compile:*",
     "compile:cjs": "tsc -m node16 && renamer --find '/\\.js$/' --replace .cjs 'dist/**'",
     "compile:esm": "tsc -d        && renamer --find '/\\.js$/' --replace .mjs 'dist/**'",
+    "gen-testdatacode": "groovy scripts/gen-testdatacode.groovy testdata/",
     "test": "vitest run",
     "check": "run-s lint test",
     "check:ci": "run-s lint:ci test",
@@ -50,7 +51,6 @@
   "homepage": "https://github.com/sciencesakura/mutf-8",
   "devDependencies": {
     "@biomejs/biome": "^1.9.2",
-    "@types/node": "^20.17.1",
     "npm-run-all2": "^7.0.1",
     "renamer": "^5.0.2",
     "rimraf": "^6.0.1",
