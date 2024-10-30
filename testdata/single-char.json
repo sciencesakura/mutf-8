@@ -1,0 +1,22 @@
+[
+  {
+    "name": "The null character",
+    "text": "\u0000"
+  },
+  {
+    "name": "A character whose code point is between U+0001 and U+007F",
+    "text": "A"
+  },
+  {
+    "name": "A character whose code point is between U+0080 and U+07FF",
+    "text": "Ä"
+  },
+  {
+    "name": "A character whose code point is between U+0800 and U+FFFF",
+    "text": "あ"
+  },
+  {
+    "name": "A character whose code point is above U+FFFF",
+    "text": "🐢"
+  }
+]

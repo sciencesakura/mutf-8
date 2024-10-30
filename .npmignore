@@ -1,6 +1,8 @@
 .github/
 node_modules/
+scripts/
 src/
+testdata/
 
 .editorconfig
 biome.json
