@@ -1,6 +1,6 @@
 {
   "name": "mutf-8",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "An encoder/decoder for Modified UTF-8 (MUTF-8) which is used in the Java platform such as the class file format and the object serialization.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
