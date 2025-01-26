@@ -11,7 +11,7 @@ export interface TextDecoderOptions {
   /** `true` to stop processing when an error occurs, `false` otherwise. */
   fatal?: boolean;
 
-  /** Whther to ignore the BOM or not. */
+  /** Wether to ignore the BOM or not. */
   ignoreBOM?: boolean;
 }
 
@@ -19,6 +19,7 @@ export interface TextDecoderOptions {
  * The options for decoding.
  */
 export interface TextDecodeOptions {
+  /** Wether to process the input as a stream or not. */
   stream?: boolean;
 }
 
@@ -59,6 +60,8 @@ export class MUtf8Decoder {
 
   #ignoreBOM: boolean;
 
+  #leavings?: Uint8Array;
+
   /**
    * @returns Always `"mutf-8"`.
    */
@@ -98,12 +101,13 @@ export class MUtf8Decoder {
    * Decodes the specified bytes.
    *
    * @param input   - The bytes to be decoded.
-   * @param options - The options. This parameter is ignored.
+   * @param options - The options.
    * @returns The resultant string.
    * @throws {TypeError} If {@link fatal} is `true` and the `input` is invalid bytes.
    */
   decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
-    const buf = input instanceof Uint8Array ? input : new Uint8Array("buffer" in input ? input.buffer : input);
+    const stream = options.stream ?? false;
+    const buf = this.#toBinary(input);
     const length = buf.length;
     const result: string[] = [];
     let p = 0;
@@ -115,6 +119,10 @@ export class MUtf8Decoder {
       } else if ((b1 & 0xe0) === 0xc0) {
         // U+0000, U+0080-07FF
         if (length <= p) {
+          if (stream) {
+            this.#leavings = buf.slice(p - 1);
+            break;
+          }
           result.push(this.#handleError());
           continue;
         }
@@ -128,6 +136,10 @@ export class MUtf8Decoder {
       } else if ((b1 & 0xf0) === 0xe0) {
         // U+0800-FFFF
         if (length <= p + 1) {
+          if (stream) {
+            this.#leavings = buf.slice(p - 1);
+            break;
+          }
           result.push(this.#handleError());
           continue;
         }
@@ -155,6 +167,23 @@ export class MUtf8Decoder {
     return result.join("");
   }
 
+  #toBinary(input: AllowSharedBufferSource): Uint8Array {
+    let bin: Uint8Array;
+    if (input instanceof Uint8Array) {
+      bin = input;
+    } else {
+      bin = new Uint8Array("buffer" in input ? input.buffer : input);
+    }
+    if (!this.#leavings) {
+      return bin;
+    }
+    const combined = new Uint8Array(this.#leavings.length + bin.length);
+    combined.set(this.#leavings, 0);
+    combined.set(bin, this.#leavings.length);
+    this.#leavings = undefined;
+    return combined;
+  }
+
   #handleError() {
     if (this.fatal) {
       throw new TypeError("MUtf8Decoder.decode: Decoding failed.");
@@ -164,7 +193,7 @@ export class MUtf8Decoder {
 }
 
 /**
- * The encoder for Modified UTF-8 (MUTF-8).
+ * The encoder for Modified UTF-8.
  *
  * @example
  * ```ts
@@ -187,7 +216,7 @@ export class MUtf8Encoder {
   }
 
   /**
-   * Encodes the specified string in MUTF-8.
+   * Encodes the specified string in Modified UTF-8.
    *
    * @param input - The string to be encoded.
    * @returns The resultant bytes.
@@ -218,7 +247,7 @@ export class MUtf8Encoder {
   }
 
   /**
-   * Encodes the specified string in MUTF-8 and stores the result to the specified array.
+   * Encodes the specified string in Modified UTF-8 and stores the result to the specified array.
    *
    * @param source      - The string to be encoded.
    * @param destination - The bytes to be stored the result.
