@@ -65,6 +65,28 @@ describe("MUtf8Decoder.decode()", () => {
     expect(decoder.decode(new Uint8Array([0x61, 0xe0]))).toBe("a\ufffd");
     expect(decoder.decode(new Uint8Array([0x61, 0xe0, 0x80]))).toBe("a\ufffd\ufffd");
   });
+
+  test("when stream is true, the decoder retains the leavings", () => {
+    const decoder1 = new MUtf8Decoder();
+    expect(decoder1.decode(new Uint8Array([0xe3, 0x81, 0x93, 0xe3, 0x82]), { stream: true })).toBe("こ");
+    expect(decoder1.decode(new Uint8Array([0x93, 0xe3, 0x81, 0xab, 0xe3]), { stream: true })).toBe("んに");
+    expect(decoder1.decode(new Uint8Array([0x81, 0xa1, 0xe3, 0x81, 0xaf]))).toBe("ちは");
+
+    const decoder2 = new MUtf8Decoder();
+    expect(decoder2.decode(new Uint8Array([0x54, 0x73, 0x63, 0x68, 0xc3]), { stream: true })).toBe("Tsch");
+    expect(decoder2.decode(new Uint8Array([0xbc, 0x73, 0x73]))).toBe("üss");
+  });
+
+  test("when stream is false, the decoder treats the leavings as an invalid byte sequence", () => {
+    const decoder1 = new MUtf8Decoder();
+    expect(decoder1.decode(new Uint8Array([0xe3, 0x81, 0x93, 0xe3, 0x82]), { stream: false })).toBe("こ\ufffd\ufffd");
+    expect(decoder1.decode(new Uint8Array([0x93, 0xe3, 0x81, 0xab, 0xe3]), { stream: false })).toBe("\ufffdに\ufffd");
+    expect(decoder1.decode(new Uint8Array([0x81, 0xa1, 0xe3, 0x81, 0xaf]))).toBe("\ufffd\ufffdは");
+
+    const decoder2 = new MUtf8Decoder();
+    expect(decoder2.decode(new Uint8Array([0x54, 0x73, 0x63, 0x68, 0xc3]), { stream: false })).toBe("Tsch\ufffd");
+    expect(decoder2.decode(new Uint8Array([0xbc, 0x73, 0x73]))).toBe("\ufffdss");
+  });
 });
 
 describe("MUtf8Encoder.encode()", () => {

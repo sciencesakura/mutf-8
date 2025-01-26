@@ -38,7 +38,7 @@ const text = decoder.decode(code);
 
 See [API reference](https://sciencesakura.github.io/mutf-8/) for details.
 
-## Licence
+## License
 
 MIT License
 
