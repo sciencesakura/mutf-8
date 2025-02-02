@@ -42,4 +42,4 @@ See [API reference](https://sciencesakura.github.io/mutf-8/) for details.
 
 This library is licensed under the MIT License.
 
-Copyright (c) 2020 sciencesakura
+Copyright (c) 2025 sciencesakura

@@ -1,8 +1,4 @@
-/**
- * @module mutf-8
- * @copyright 2020 sciencesakura
- * @license MIT
- */
+// SPDX-License-Identifier: MIT
 
 /**
  * The options for the decoder.
