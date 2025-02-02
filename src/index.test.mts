@@ -66,7 +66,7 @@ describe("MUtf8Decoder.decode()", () => {
     expect(decoder.decode(new Uint8Array([0x61, 0xe0, 0x80]))).toBe("a\ufffd\ufffd");
   });
 
-  test("when stream is true, the decoder retains the leavings", () => {
+  test("when stream is true, the decoder retains the remaining bytes", () => {
     const decoder1 = new MUtf8Decoder();
     expect(decoder1.decode(new Uint8Array([0xe3, 0x81, 0x93, 0xe3, 0x82]), { stream: true })).toBe("こ");
     expect(decoder1.decode(new Uint8Array([0x93, 0xe3, 0x81, 0xab, 0xe3]), { stream: true })).toBe("んに");
