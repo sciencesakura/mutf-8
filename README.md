@@ -2,9 +2,9 @@
 
 ![](https://github.com/sciencesakura/mutf-8/actions/workflows/check.yaml/badge.svg) [![npm version](https://badge.fury.io/js/mutf-8.svg)](https://badge.fury.io/js/mutf-8)
 
-## What is the Modified UTF-8 ?
+## What is Modified UTF-8?
 
-The Modified UTF-8 \(MUTF-8\) is used in the Java platform such as the class file format and the object serialization.
+Modified UTF-8 (MUTF-8) is used in the Java platform, such as the class file format and object serialization.
 
 See [The Java Virtual Machine Specification, Java SE 21 Edition, section 4.4.7](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7) for details.
 
@@ -40,6 +40,6 @@ See [API reference](https://sciencesakura.github.io/mutf-8/) for details.
 
 ## License
 
-MIT License
+This library is licensed under the MIT License.
 
-Copyright (c) 2020 sciencesakura
+Copyright (c) 2025 sciencesakura

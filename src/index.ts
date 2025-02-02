@@ -1,17 +1,21 @@
-/**
- * @module mutf-8
- * @copyright 2020 sciencesakura
- * @license MIT
- */
+// SPDX-License-Identifier: MIT
 
 /**
- * The options for decoder.
+ * The options for the decoder.
  */
 export interface TextDecoderOptions {
-  /** `true` to stop processing when an error occurs, `false` otherwise. */
+  /**
+   * If `true`, the decoder will throw an error upon encountering invalid bytes.
+   *
+   * @defaultValue `false`
+   */
   fatal?: boolean;
 
-  /** Wether to ignore the BOM or not. */
+  /**
+   * If `true`, the decoder will ignore the Byte Order Mark (BOM).
+   *
+   * @defaultValue `false`
+   */
   ignoreBOM?: boolean;
 }
 
@@ -19,7 +23,11 @@ export interface TextDecoderOptions {
  * The options for decoding.
  */
 export interface TextDecodeOptions {
-  /** Wether to process the input as a stream or not. */
+  /**
+   * If `true`, the decoder will process the input as a stream, allowing partial decoding.
+   *
+   * @defaultValue `false`
+   */
   stream?: boolean;
 }
 
@@ -27,10 +35,10 @@ export interface TextDecodeOptions {
  * The result of encoding.
  */
 export interface TextEncoderEncodeIntoResult {
-  /** The number of converted code units of source. */
+  /** The number of converted code units of the source. */
   read: number;
 
-  /** The number of bytes modified in destination. */
+  /** The number of bytes modified in the destination. */
   written: number;
 }
 
@@ -84,9 +92,11 @@ export class MUtf8Decoder {
   }
 
   /**
-   * @param label   - The label of the encoder. Must be `"mutf-8"` or `"mutf8"`.
-   * @param options - The options.
-   * @throws {RangeError} If the `label` is invalid value.
+   * Creates an instance of MUtf8Decoder.
+   *
+   * @param label   - The label of the decoder. Must be `"mutf-8"` or `"mutf8"`.
+   * @param options - The options for the decoder.
+   * @throws {RangeError} If the `label` is an invalid value.
    */
   constructor(label = "mutf-8", options: TextDecoderOptions = {}) {
     const normalizedLabel = label.toLowerCase();
@@ -98,12 +108,12 @@ export class MUtf8Decoder {
   }
 
   /**
-   * Decodes the specified bytes.
+   * Decodes the specified bytes into a string.
    *
    * @param input   - The bytes to be decoded.
-   * @param options - The options.
-   * @returns The resultant string.
-   * @throws {TypeError} If {@link fatal} is `true` and the `input` is invalid bytes.
+   * @param options - The options for decoding.
+   * @returns The resultant string after decoding.
+   * @throws {TypeError} If {@link fatal} is `true` and the `input` contains invalid bytes.
    */
   decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
     const stream = options.stream ?? false;
@@ -156,7 +166,7 @@ export class MUtf8Decoder {
           continue;
         }
         if (p === 3 && b1 === 0xef && b2 === 0xbb && b3 === 0xbf && !this.ignoreBOM) {
-          // slip a BOM `EF BB BF`
+          // skip BOM `EF BB BF`
           continue;
         }
         result.push(String.fromCharCode(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f)));
@@ -247,11 +257,11 @@ export class MUtf8Encoder {
   }
 
   /**
-   * Encodes the specified string in Modified UTF-8 and stores the result to the specified array.
+   * Encodes the specified string in Modified UTF-8 and stores the result in the specified array.
    *
    * @param source      - The string to be encoded.
-   * @param destination - The bytes to be stored the result.
-   * @returns The progress.
+   * @param destination - The array to store the encoded bytes.
+   * @returns The progress of the encoding operation.
    */
   encodeInto(source: string, destination: Uint8Array): TextEncoderEncodeIntoResult {
     const destLen = destination.length;
