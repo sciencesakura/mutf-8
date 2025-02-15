@@ -42,7 +42,7 @@ def decode = { binary ->
   }
 }
 
-def generateTestdataCode = { jsonFile ->
+def generateTestDataCode = { jsonFile ->
   def code = new StringBuilder(header)
   code << 'const testdata = ['
   new JsonSlurper().parse(jsonFile).each {
@@ -64,6 +64,6 @@ def generateTestdataCode = { jsonFile ->
 
 new File(this.args[0]).eachFileMatch(~/.*\.json/) { file ->
   def name = file.name.replaceFirst(/\.json$/, '')
-  def outFile = new File('src', "testdata-${name}.mts")
-  outFile.text = generateTestdataCode(file)
+  def outFile = new File(this.args[1], "testdata-${name}.mts")
+  outFile.text = generateTestDataCode(file)
 }
