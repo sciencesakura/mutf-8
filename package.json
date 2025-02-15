@@ -1,64 +1,25 @@
 {
-  "name": "mutf-8",
-  "version": "1.1.5",
-  "description": "An encoder/decoder for Modified UTF-8 (MUTF-8) which is used in the Java platform such as the class file format and the object serialization.",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "exports": {
-    "import": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.mjs"
-    },
-    "require": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.cjs"
-    }
-  },
-  "types": "./dist/index.d.ts",
-  "sideEffects": false,
-  "scripts": {
-    "clean": "rimraf dist",
-    "lint": "biome check --write src",
-    "lint:ci": "biome check src",
-    "compile": "run-s compile:*",
-    "compile:cjs": "tsc -m node16 && renamer --find '/\\.js$/' --replace .cjs 'dist/**'",
-    "compile:esm": "tsc -d        && renamer --find '/\\.js$/' --replace .mjs 'dist/**'",
-    "gen-testdatacode": "groovy scripts/gen-testdatacode.groovy testdata/",
-    "test": "vitest run",
-    "check": "run-s lint test",
-    "check:ci": "run-s lint:ci test",
-    "build": "run-s clean check compile",
-    "build:ci": "run-s clean check:ci compile",
-    "docs": "typedoc --out docs src/index.ts",
-    "prepare": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sciencesakura/mutf-8.git"
-  },
-  "keywords": [
-    "charset",
-    "encoding",
-    "Java",
-    "MUTF-8",
-    "MUTF8"
-  ],
-  "author": "sciencesakura <sakurasakurascience@gmail.com>",
+  "name": "mutf-8-root",
+  "version": "0.0.1",
+  "private": true,
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/sciencesakura/mutf-8/issues"
+  "author": "sciencesakura <sakurasakurascience@gmail.com>",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "docs": "typedoc --out docs"
   },
-  "homepage": "https://github.com/sciencesakura/mutf-8",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "npm-run-all2": "^7.0.2",
     "renamer": "^5.0.2",
     "rimraf": "^6.0.1",
-    "typedoc": "^0.27.6",
+    "typedoc": "^0.27.7",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.5"
   },
   "volta": {
-    "node": "22.13.1"
+    "node": "22.14.0"
   }
 }

@@ -1,0 +1,51 @@
+{
+  "name": "mutf-8",
+  "version": "1.2.0",
+  "description": "An encoder/decoder for Modified UTF-8 (MUTF-8) which is used in the Java platform such as the class file format and the object serialization.",
+  "keywords": [
+    "charset",
+    "encoding",
+    "Java",
+    "MUTF-8",
+    "MUTF8"
+  ],
+  "homepage": "https://github.com/sciencesakura/mutf-8",
+  "bugs": {
+    "url": "https://github.com/sciencesakura/mutf-8/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sciencesakura/mutf-8.git"
+  },
+  "license": "MIT",
+  "author": "sciencesakura <sakurasakurascience@gmail.com>",
+  "exports": {
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
+    },
+    "require": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "run-s clean check compile",
+    "build:ci": "run-s clean check:ci compile",
+    "check": "run-s lint test",
+    "check:ci": "run-s lint:ci test",
+    "clean": "rimraf dist",
+    "compile": "run-s compile:*",
+    "compile:cjs": "tsc -m node16 && renamer --find '/\\.js$/' --replace .cjs 'dist/**'",
+    "compile:esm": "tsc -d        && renamer --find '/\\.js$/' --replace .mjs 'dist/**'",
+    "gen-testdatacode": "groovy ../../scripts/gen-testdatacode.groovy testdata src",
+    "lint": "biome check --write src",
+    "lint:ci": "biome check src",
+    "prepare": "npm run build",
+    "test": "vitest run"
+  },
+  "sideEffects": false,
+  "module": "./dist/index.mjs"
+}

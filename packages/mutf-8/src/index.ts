@@ -234,6 +234,7 @@ export class MUtf8Encoder {
   encode(input = ""): Uint8Array {
     const bin: number[] = [];
     for (const c of input) {
+      // biome-ignore lint/style/noNonNullAssertion: `c` is always a non-empty string.
       const code = c.codePointAt(0)!;
       if (0x0001 <= code && code <= 0x007f) {
         bin.push(code);
@@ -268,6 +269,7 @@ export class MUtf8Encoder {
     let i = 0;
     let read = 0;
     for (const c of source) {
+      // biome-ignore lint/style/noNonNullAssertion: `c` is always a non-empty string.
       const code = c.codePointAt(0)!;
       if (0x0001 <= code && code <= 0x007f) {
         if (destLen <= i) break;

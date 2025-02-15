@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
     "lib": ["es2022"],
-    "module": "es2015",
-    "outDir": "dist",
+    "module": "es2022",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2018"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*", "src/**/testdata-*"]
+    "target": "es2022"
+  }
 }
