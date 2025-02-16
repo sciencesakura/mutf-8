@@ -5,13 +5,16 @@
   "license": "MIT",
   "author": "sciencesakura <sakurasakurascience@gmail.com>",
   "workspaces": [
-    "packages/*"
+    "packages/mutf-8",
+    "packages/mutf-8-stream"
   ],
   "scripts": {
+    "testdata": "./scripts/gen-testdatacode.groovy testdata.json",
     "docs": "typedoc --out docs"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "cpx2": "^8.0.0",
     "npm-run-all2": "^7.0.2",
     "renamer": "^5.0.2",
     "rimraf": "^6.0.1",

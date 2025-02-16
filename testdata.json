@@ -1,0 +1,66 @@
+[
+  {
+    "name": "The null character",
+    "text": "\u0000"
+  },
+  {
+    "name": "A character whose code point is between U+0001 and U+007F",
+    "text": "A"
+  },
+  {
+    "name": "A character whose code point is between U+0080 and U+07FF",
+    "text": "Ä"
+  },
+  {
+    "name": "A character whose code point is between U+0800 and U+FFFF",
+    "text": "あ"
+  },
+  {
+    "name": "A character whose code point is above U+FFFF",
+    "text": "🐢"
+  },
+  {
+    "name": "A message text (en)",
+    "text": "The quick brown fox jumps over the lazy dog."
+  },
+  {
+    "name": "A message text (fr)",
+    "text": "Le cœur déçu mais l'âme plutôt naïve, Louÿs rêva de crapaüter en canoë au delà des îles, près du mälström où brûlent les novæ."
+  },
+  {
+    "name": "A message text (pt)",
+    "text": "Um pequeno jabuti xereta viu dez cegonhas felizes."
+  },
+  {
+    "name": "A message text (ru)",
+    "text": "Широкая электрификация южных губерний даст мощный толчок подъёму сельского хозяйства."
+  },
+  {
+    "name": "A message text (ja)",
+    "text": "いろはにほへと ちりぬるを わかよたれそ つねならむ うゐのおくやま けふこえて あさきゆめみし ゑひもせす"
+  },
+  {
+    "name": "A message text (ja half-width)",
+    "text": "ｲﾛﾊﾆﾎﾍﾄ ﾁﾘﾇﾙｦ ﾜｶﾖﾀﾚｿ ﾂﾈﾅﾗﾑ ｳｲﾉｵｸﾔﾏ ｹﾌｺｴﾃ ｱｻｷﾕﾒﾐｼ ｴﾋﾓｾｽ"
+  },
+  {
+    "name": "A message text (zh)",
+    "text": "天地玄黃 宇宙洪荒 日月盈昃 辰宿列張 寒來暑往 秋收冬藏"
+  },
+  {
+    "name": "A message text (ko)",
+    "text": "키스의 고유조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다."
+  },
+  {
+    "name": "A message text (hi)",
+    "text": "कच्चा पापड़ पक्का पापड़"
+  },
+  {
+    "name": "A message text (he)",
+    "text": "עטלף אבק נס דרך מזגן שהתפוצץ כי חם"
+  },
+  {
+    "name": "Emojis",
+    "text": "😀😃😄😁😆😅😂🤣😊😇😍😘😗😙😚😋😛😜😝😎😭😌😖😔😞😢😠😡😪"
+  }
+]

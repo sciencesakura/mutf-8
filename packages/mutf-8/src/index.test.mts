@@ -2,8 +2,7 @@
 
 import { describe, expect, test } from "vitest";
 import { MUtf8Decoder, MUtf8Encoder } from "./index.js";
-import data_m17n_text from "./testdata-m17n-text.mjs";
-import data_single_char from "./testdata-single-char.mjs";
+import testdata from "./testdata.mjs";
 
 describe("MUtf8Decoder.decode()", () => {
   test("decode an empty byte sequence", () => {
@@ -12,18 +11,14 @@ describe("MUtf8Decoder.decode()", () => {
     expect(decoder.decode(src)).toBe("");
   });
 
-  test.each(data_single_char)("decode a byte sequence representing the character $text", ({ text, binary }) => {
-    const decoder = new MUtf8Decoder();
-    expect(decoder.decode(binary)).toBe(text);
-  });
-
-  test.each(data_m17n_text)("decode a byte sequence representing the text $text", ({ text, binary }) => {
+  test.each(testdata)("decode a byte sequence representing the text: $text", ({ text, binary }) => {
     const decoder = new MUtf8Decoder();
     expect(decoder.decode(binary)).toBe(text);
   });
 
   test("when ignoreBOM is true, the decoder retains the leading U+FEFF", () => {
     const decoder = new MUtf8Decoder("mutf-8", { ignoreBOM: true });
+    expect(decoder.ignoreBOM).toBe(true);
     // biome-ignore format:
     const src = new Uint8Array([
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
@@ -34,6 +29,7 @@ describe("MUtf8Decoder.decode()", () => {
 
   test("when ignoreBOM is false, the decoder ignores the leading U+FEFF", () => {
     const decoder = new MUtf8Decoder("mutf-8", { ignoreBOM: false });
+    expect(decoder.ignoreBOM).toBe(false);
     // biome-ignore format:
     const src = new Uint8Array([
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
@@ -44,6 +40,7 @@ describe("MUtf8Decoder.decode()", () => {
 
   test("when fatal is true, an invalid byte sequence causes a TypeError", () => {
     const decoder = new MUtf8Decoder("mutf-8", { fatal: true });
+    expect(decoder.fatal).toBe(true);
     // contains the invalid byte sequence
     expect(() => decoder.decode(new Uint8Array([0x61, 0x80, 0x62]))).toThrow(TypeError);
     expect(() => decoder.decode(new Uint8Array([0x61, 0xc0, 0x40, 0x62]))).toThrow(TypeError);
@@ -57,6 +54,7 @@ describe("MUtf8Decoder.decode()", () => {
 
   test("when fatal is false, an invalid byte sequence is replaced by U+FFFD", () => {
     const decoder = new MUtf8Decoder("mutf-8", { fatal: false });
+    expect(decoder.fatal).toBe(false);
     // contains the invalid byte sequence
     expect(decoder.decode(new Uint8Array([0x61, 0x80, 0x62]))).toBe("a\ufffdb");
     expect(decoder.decode(new Uint8Array([0x61, 0xc0, 0x40, 0x62]))).toBe("a\ufffd@b");
@@ -97,12 +95,7 @@ describe("MUtf8Encoder.encode()", () => {
     expect(encoder.encode("")).toEqual(new Uint8Array(0));
   });
 
-  test.each(data_single_char)("encode the single character $text", ({ text, binary }) => {
-    const encoder = new MUtf8Encoder();
-    expect(encoder.encode(text)).toEqual(binary);
-  });
-
-  test.each(data_m17n_text)("encode the text $text", ({ text, binary }) => {
+  test.each(testdata)("encode the text: $text", ({ text, binary }) => {
     const decoder = new MUtf8Decoder();
     expect(decoder.decode(binary)).toBe(text);
   });
@@ -116,14 +109,7 @@ describe("MUtf8Encoder.encodeInto()", () => {
     expect(dest).toEqual(new Uint8Array(0));
   });
 
-  test.each(data_single_char)("encode the single character $text", ({ text, binary }) => {
-    const dest = new Uint8Array(binary.length);
-    const encoder = new MUtf8Encoder();
-    expect(encoder.encodeInto(text, dest)).toEqual({ read: text.length, written: binary.length });
-    expect(dest).toEqual(binary);
-  });
-
-  test.each(data_m17n_text)("encode the text $text", ({ text, binary }) => {
+  test.each(testdata)("encode the text: $text", ({ text, binary }) => {
     const dest = new Uint8Array(binary.length);
     const encoder = new MUtf8Encoder();
     expect(encoder.encodeInto(text, dest)).toEqual({ read: text.length, written: binary.length });
