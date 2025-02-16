@@ -32,19 +32,19 @@
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "run-s clean check compile",
-    "build:ci": "run-s clean check:ci compile",
+    "build": "run-s check compile",
+    "build:ci": "run-s check:ci compile",
     "check": "run-s lint test",
     "check:ci": "run-s lint:ci test",
     "clean": "rimraf dist",
     "compile": "run-s compile:*",
-    "compile:cjs": "tsc -m node16 && renamer --find '/\\.js$/' --replace .cjs 'dist/**'",
-    "compile:esm": "tsc -d        && renamer --find '/\\.js$/' --replace .mjs 'dist/**'",
-    "gen-testdatacode": "groovy ../../scripts/gen-testdatacode.groovy testdata src",
+    "compile:cjs": "tsc && renamer --force --find '/\\.js$/' --replace .cjs 'dist/**'",
+    "compile:esm": "tsc -m es2022 --moduleResolution node10 -d && renamer --force --find '/\\.js$/' --replace .mjs 'dist/**'",
     "lint": "biome check --write src",
     "lint:ci": "biome check src",
+    "prepack": "cpx ../../{LICENSE,README.md} .",
     "prepare": "npm run build",
-    "test": "vitest run"
+    "test": "vitest run --typecheck.tsconfig tsconfig.test.json"
   },
   "sideEffects": false,
   "module": "./dist/index.mjs"
