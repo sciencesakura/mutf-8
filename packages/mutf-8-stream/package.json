@@ -1,5 +1,5 @@
 {
-  "name": "mutf-8",
+  "name": "mutf-8-stream",
   "version": "1.2.0",
   "description": "An encoder/decoder for Modified UTF-8 (MUTF-8) which is used in the Java platform such as the class file format and the object serialization.",
   "keywords": [
@@ -45,6 +45,9 @@
     "prepack": "cpx ../../{LICENSE,README.md} .",
     "prepublishOnly": "npm run build",
     "test": "vitest run --typecheck.tsconfig tsconfig.test.json"
+  },
+  "dependencies": {
+    "mutf-8": "^1.2.0"
   },
   "sideEffects": false,
   "module": "./dist/index.mjs"

@@ -5,7 +5,8 @@
   "license": "MIT",
   "author": "sciencesakura <sakurasakurascience@gmail.com>",
   "workspaces": [
-    "packages/*"
+    "packages/mutf-8",
+    "packages/mutf-8-stream"
   ],
   "scripts": {
     "testdata": "./scripts/gen-testdatacode.groovy testdata.json",
