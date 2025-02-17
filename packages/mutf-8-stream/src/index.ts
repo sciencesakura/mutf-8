@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+
 import { type AllowSharedBufferSource, MUtf8Decoder, MUtf8Encoder, type TextDecoderOptions } from "mutf-8";
 
 /**
@@ -6,13 +7,17 @@ import { type AllowSharedBufferSource, MUtf8Decoder, MUtf8Encoder, type TextDeco
  *
  * @example
  * ```ts
- * // Convert Modified UTF-8 stream to UTF-8 stream.
- * await mutf8Stream.pipeThrough(new MUtf8DecoderStream())
- *   .pipeThrough(new TextEncoderStream())
- *   .pipeTo(destination);
+ * await getLargeBinaryAsStream()
+ *   .pipeThrough(new MUtf8DecoderStream())
+ *   .pipeTo(new WritableStream({
+ *     write(chunk) {
+ *       // Handle the decoded chunk
+ *     }
+ *   }));
  * ```
  *
- * @see {@link https://encoding.spec.whatwg.org/}
+ * @see {@link https://encoding.spec.whatwg.org/#interface-textdecoderstream}
+ * @since v1.2.0
  */
 export class MUtf8DecoderStream extends TransformStream<AllowSharedBufferSource, string> {
   #decoder: MUtf8Decoder;
@@ -39,8 +44,6 @@ export class MUtf8DecoderStream extends TransformStream<AllowSharedBufferSource,
   }
 
   /**
-   * Creates an instance of `MUtf8DecoderStream`.
-   *
    * @param label   - The label of the decoder. Must be `"mutf-8"` or `"mutf8"`.
    * @param options - The options for the decoder.
    * @throws `RangeError` If the `label` is an invalid value.
@@ -61,13 +64,17 @@ export class MUtf8DecoderStream extends TransformStream<AllowSharedBufferSource,
  *
  * @example
  * ```ts
- * // Convert UTF-8 stream to Modified UTF-8 stream.
- * await utf8Stream.pipeThrough(new TextDecoderStream())
+ * await getLargeTextAsStream()
  *   .pipeThrough(new MUtf8EncoderStream())
- *   .pipeTo(destination);
+ *   .pipeTo(new WritableStream({
+ *     write(chunk) {
+ *       // Handle the encoded chunk
+ *     }
+ *   }));
  * ```
  *
- * @see {@link https://encoding.spec.whatwg.org/}
+ * @see {@link https://encoding.spec.whatwg.org/#interface-textencoderstream}
+ * @since v1.2.0
  */
 export class MUtf8EncoderStream extends TransformStream<string, Uint8Array> {
   /**
@@ -77,9 +84,6 @@ export class MUtf8EncoderStream extends TransformStream<string, Uint8Array> {
     return "mutf-8";
   }
 
-  /**
-   * Creates an instance of `MUtf8EncoderStream`.
-   */
   constructor() {
     const encoder = new MUtf8Encoder();
     super({
