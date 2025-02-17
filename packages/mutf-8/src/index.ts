@@ -61,7 +61,7 @@ export type AllowSharedBufferSource = ArrayBuffer | SharedArrayBuffer | ArrayBuf
  * // Hello 世界!
  * ```
  *
- * @see {@link https://encoding.spec.whatwg.org/}
+ * @see {@link https://encoding.spec.whatwg.org/#interface-textdecoder}
  */
 export class MUtf8Decoder {
   #fatal: boolean;
@@ -92,11 +92,9 @@ export class MUtf8Decoder {
   }
 
   /**
-   * Creates an instance of MUtf8Decoder.
-   *
    * @param label   - The label of the decoder. Must be `"mutf-8"` or `"mutf8"`.
    * @param options - The options for the decoder.
-   * @throws {RangeError} If the `label` is an invalid value.
+   * @throws `RangeError` If the `label` is an invalid value.
    */
   constructor(label = "mutf-8", options: TextDecoderOptions = {}) {
     const normalizedLabel = label.toLowerCase();
@@ -113,7 +111,7 @@ export class MUtf8Decoder {
    * @param input   - The bytes to be decoded.
    * @param options - The options for decoding.
    * @returns The resultant string after decoding.
-   * @throws {TypeError} If {@link fatal} is `true` and the `input` contains invalid bytes.
+   * @throws `TypeError` If {@link fatal} is `true` and the `input` contains invalid bytes.
    */
   decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
     const stream = options.stream ?? false;
@@ -215,7 +213,7 @@ export class MUtf8Decoder {
  * // ]
  * ```
  *
- * @see {@link https://encoding.spec.whatwg.org/}
+ * @see {@link https://encoding.spec.whatwg.org/#interface-textencoder}
  */
 export class MUtf8Encoder {
   /**
