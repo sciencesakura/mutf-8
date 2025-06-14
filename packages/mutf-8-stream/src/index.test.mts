@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from "vitest";
+import testdata from "../../../testdata.mts";
 import { MUtf8DecoderStream, MUtf8EncoderStream } from "./index.js";
-import testdata from "./testdata.mjs";
 
 describe("MUtf8DecoderStream", () => {
   async function readAll(stream: ReadableStream<string>): Promise<string> {
