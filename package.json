@@ -15,14 +15,14 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "cpx2": "^8.0.0",
-    "npm-run-all2": "^7.0.2",
+    "npm-run-all2": "^8.0.4",
     "renamer": "^5.0.2",
     "rimraf": "^6.0.1",
-    "typedoc": "^0.27.7",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "typedoc": "^0.28.5",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.3"
   },
   "volta": {
-    "node": "22.14.0"
+    "node": "22.16.0"
   }
 }
