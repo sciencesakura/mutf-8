@@ -9,8 +9,14 @@
     "packages/mutf-8-stream"
   ],
   "scripts": {
-    "testdata": "./scripts/gen-testdatacode.groovy testdata.json",
-    "docs": "typedoc --out docs"
+    "build": "npm run build --workspaces",
+    "check": "npm run check --workspaces",
+    "clean": "npm run clean --workspaces",
+    "compile": "npm run compile --workspaces",
+    "docs": "typedoc --out docs",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces",
+    "testdata": "./scripts/gen-testdatacode.groovy testdata.json"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
