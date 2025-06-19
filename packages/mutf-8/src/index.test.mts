@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from "vitest";
-import testdata from "../../../testdata.mts";
+import testdata from "../../../testdata.mjs";
 import { MUtf8Decoder, MUtf8Encoder } from "./index.js";
 
 describe("MUtf8Decoder.decode()", () => {
