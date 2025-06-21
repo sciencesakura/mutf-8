@@ -1,0 +1,16 @@
+{
+  "name": "mutf-8",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "node",
+  "customizations": {
+    "vscode": {
+      "extensions": ["EditorConfig.EditorConfig", "biomejs.biome"],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "biomejs.biome"
+      }
+    }
+  }
+}
