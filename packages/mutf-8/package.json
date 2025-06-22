@@ -1,7 +1,7 @@
 {
   "name": "mutf-8",
   "version": "1.2.0",
-  "description": "An encoder and decoder for Modified UTF-8 which is used in the Java platform such as the class file format and object serialization.",
+  "description": "A TypeScript/JavaScript library for encoding and decoding Modified UTF-8, the character encoding variant used in the Java platform for class files, object serialization, and other Java technologies.",
   "keywords": [
     "charset",
     "encoding",
