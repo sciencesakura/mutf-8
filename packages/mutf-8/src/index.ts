@@ -124,11 +124,11 @@ export type AllowSharedBufferSource = ArrayBuffer | SharedArrayBuffer | ArrayBuf
  * @see {@link https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 21 Edition, Section 4.4.7}
  */
 export class MUtf8Decoder {
-  #fatal: boolean;
+  readonly #fatal: boolean;
 
-  #ignoreBOM: boolean;
+  readonly #ignoreBOM: boolean;
 
-  #leavings = new Uint8Array(3);
+  readonly #leavings = new Uint8Array(3);
 
   #leavingsLength = 0;
 
