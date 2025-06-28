@@ -44,7 +44,8 @@
     "lint:ci": "biome check src",
     "prepack": "cpx ../../{LICENSE,README.md} .",
     "prepublishOnly": "npm run build",
-    "test": "vitest run --typecheck.tsconfig tsconfig.test.json"
+    "test": "vitest run --typecheck.tsconfig tsconfig.test.json",
+    "bench": "vitest bench --typecheck.tsconfig tsconfig.test.json"
   },
   "sideEffects": false,
   "module": "./dist/index.mjs"
