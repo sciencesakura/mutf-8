@@ -325,29 +325,31 @@ export class MUtf8Encoder {
    * @returns A new `Uint8Array` containing the Modified UTF-8 encoded bytes
    */
   encode(input = ""): Uint8Array {
-    const bin: number[] = [];
-    for (const c of input) {
+    const bytes = new Uint8Array(this.#estimateByteLength(input));
+    let bp = 0;
+    for (let cp = 0; cp < input.length; cp++) {
       // biome-ignore lint/style/noNonNullAssertion: `c` is always a non-empty string.
-      const code = c.codePointAt(0)!;
+      const code = input.codePointAt(cp)!;
       if (0x0001 <= code && code <= 0x007f) {
-        bin.push(code);
+        bytes[bp++] = code;
       } else if (code <= 0x07ff) {
-        bin.push(0xc0 | (code >>> 6));
-        bin.push(0x80 | (0x3f & code));
+        bytes[bp++] = 0xc0 | (code >>> 6);
+        bytes[bp++] = 0x80 | (0x3f & code);
       } else if (code <= 0xffff) {
-        bin.push(0xe0 | (code >>> 12));
-        bin.push(0x80 | (0x3f & (code >>> 6)));
-        bin.push(0x80 | (0x3f & code));
+        bytes[bp++] = 0xe0 | (code >>> 12);
+        bytes[bp++] = 0x80 | (0x3f & (code >>> 6));
+        bytes[bp++] = 0x80 | (0x3f & code);
       } else {
-        bin.push(0xed);
-        bin.push(0xa0 | ((code >>> 16) - 1));
-        bin.push(0x80 | (0x3f & (code >>> 10)));
-        bin.push(0xed);
-        bin.push(0xb0 | (0x0f & (code >>> 6)));
-        bin.push(0x80 | (0x3f & code));
+        bytes[bp++] = 0xed;
+        bytes[bp++] = 0xa0 | ((code >>> 16) - 1);
+        bytes[bp++] = 0x80 | (0x3f & (code >>> 10));
+        bytes[bp++] = 0xed;
+        bytes[bp++] = 0xb0 | (0x0f & (code >>> 6));
+        bytes[bp++] = 0x80 | (0x3f & code);
+        cp++;
       }
     }
-    return new Uint8Array(bin);
+    return bytes;
   }
 
   /**
@@ -365,36 +367,57 @@ export class MUtf8Encoder {
    * @returns An object indicating how many characters were read and bytes written
    */
   encodeInto(source: string, destination: Uint8Array): TextEncoderEncodeIntoResult {
-    const destLen = destination.length;
-    let i = 0;
-    let read = 0;
-    for (const c of source) {
+    const capacity = destination.length;
+    let bp = 0;
+    let cp = 0;
+    while (cp < source.length) {
       // biome-ignore lint/style/noNonNullAssertion: `c` is always a non-empty string.
-      const code = c.codePointAt(0)!;
+      const code = source.codePointAt(cp)!;
       if (0x0001 <= code && code <= 0x007f) {
-        if (destLen <= i) break;
-        destination[i++] = code;
+        if (capacity <= bp) break;
+        destination[bp++] = code;
+        cp++;
       } else if (code <= 0x07ff) {
-        if (destLen <= i + 1) break;
-        destination[i++] = 0xc0 | (code >>> 6);
-        destination[i++] = 0x80 | (0x3f & code);
+        if (capacity <= bp + 1) break;
+        destination[bp++] = 0xc0 | (code >>> 6);
+        destination[bp++] = 0x80 | (0x3f & code);
+        cp++;
       } else if (code <= 0xffff) {
-        if (destLen <= i + 2) break;
-        destination[i++] = 0xe0 | (code >>> 12);
-        destination[i++] = 0x80 | (0x3f & (code >>> 6));
-        destination[i++] = 0x80 | (0x3f & code);
+        if (capacity <= bp + 2) break;
+        destination[bp++] = 0xe0 | (code >>> 12);
+        destination[bp++] = 0x80 | (0x3f & (code >>> 6));
+        destination[bp++] = 0x80 | (0x3f & code);
+        cp++;
       } else {
-        if (destLen <= i + 5) break;
-        destination[i++] = 0xed;
-        destination[i++] = 0xa0 | ((code >>> 16) - 1);
-        destination[i++] = 0x80 | (0x3f & (code >>> 10));
-        destination[i++] = 0xed;
-        destination[i++] = 0xb0 | (0x0f & (code >>> 6));
-        destination[i++] = 0x80 | (0x3f & code);
-        read++;
+        if (capacity <= bp + 5) break;
+        destination[bp++] = 0xed;
+        destination[bp++] = 0xa0 | ((code >>> 16) - 1);
+        destination[bp++] = 0x80 | (0x3f & (code >>> 10));
+        destination[bp++] = 0xed;
+        destination[bp++] = 0xb0 | (0x0f & (code >>> 6));
+        destination[bp++] = 0x80 | (0x3f & code);
+        cp += 2;
       }
-      read++;
     }
-    return { read, written: i };
+    return { read: cp, written: bp };
+  }
+
+  #estimateByteLength(source: string): number {
+    let length = 0;
+    for (let cp = 0; cp < source.length; cp++) {
+      // biome-ignore lint/style/noNonNullAssertion: `source` is always a non-empty string.
+      const code = source.codePointAt(cp)!;
+      if (0x0001 <= code && code <= 0x007f) {
+        length += 1;
+      } else if (code <= 0x07ff) {
+        length += 2;
+      } else if (code <= 0xffff) {
+        length += 3;
+      } else {
+        length += 6;
+        cp++;
+      }
+    }
+    return length;
   }
 }
