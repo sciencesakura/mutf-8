@@ -197,64 +197,65 @@ export class MUtf8Decoder {
    */
   decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
     const stream = options.stream ?? false;
-    const buf = this.#toBinary(input);
-    const length = buf.length;
-    const result: string[] = [];
-    let p = 0;
-    while (p < length) {
-      const b1 = buf[p++];
+    const bytes = this.#toBinary(input);
+    const length = bytes.length;
+    const codes = new Array<number>(length);
+    let bp = 0;
+    let cp = 0;
+    while (bp < length) {
+      const b1 = bytes[bp++];
       if (!(b1 & 0x80) && b1 !== 0) {
         // U+0001-007F
-        result.push(String.fromCharCode(b1));
+        codes[cp++] = b1;
       } else if ((b1 & 0xe0) === 0xc0) {
         // U+0000, U+0080-07FF
-        if (length <= p) {
+        if (length <= bp) {
           if (stream) {
-            this.#leavings = buf.slice(p - 1);
+            this.#leavings = bytes.slice(bp - 1);
             break;
           }
-          result.push(this.#handleError());
+          codes[cp++] = this.#handleError();
           continue;
         }
-        const b2 = buf[p++];
+        const b2 = bytes[bp++];
         if ((b2 & 0xc0) !== 0x80) {
-          result.push(this.#handleError());
-          p--;
+          codes[cp++] = this.#handleError();
+          bp--;
           continue;
         }
-        result.push(String.fromCharCode(((b1 & 0x1f) << 6) | (b2 & 0x3f)));
+        codes[cp++] = ((b1 & 0x1f) << 6) | (b2 & 0x3f);
       } else if ((b1 & 0xf0) === 0xe0) {
         // U+0800-FFFF
-        if (length <= p + 1) {
+        if (length <= bp + 1) {
           if (stream) {
-            this.#leavings = buf.slice(p - 1);
+            this.#leavings = bytes.slice(bp - 1);
             break;
           }
-          result.push(this.#handleError());
+          codes[cp++] = this.#handleError();
           continue;
         }
-        const b2 = buf[p++];
+        const b2 = bytes[bp++];
         if ((b2 & 0xc0) !== 0x80) {
-          result.push(this.#handleError());
-          p--;
+          codes[cp++] = this.#handleError();
+          bp--;
           continue;
         }
-        const b3 = buf[p++];
+        const b3 = bytes[bp++];
         if ((b3 & 0xc0) !== 0x80) {
-          result.push(this.#handleError());
-          p -= 2;
+          codes[cp++] = this.#handleError();
+          bp -= 2;
           continue;
         }
-        if (p === 3 && b1 === 0xef && b2 === 0xbb && b3 === 0xbf && !this.ignoreBOM) {
+        if (bp === 3 && b1 === 0xef && b2 === 0xbb && b3 === 0xbf && !this.ignoreBOM) {
           // skip BOM `EF BB BF`
           continue;
         }
-        result.push(String.fromCharCode(((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f)));
+        codes[cp++] = ((b1 & 0x0f) << 12) | ((b2 & 0x3f) << 6) | (b3 & 0x3f);
       } else {
-        result.push(this.#handleError());
+        codes[cp++] = this.#handleError();
       }
     }
-    return result.join("");
+    return String.fromCharCode(...(cp === codes.length ? codes : codes.slice(0, cp)));
   }
 
   #toBinary(input: AllowSharedBufferSource): Uint8Array {
@@ -278,7 +279,7 @@ export class MUtf8Decoder {
     if (this.fatal) {
       throw new TypeError("MUtf8Decoder.decode: Decoding failed.");
     }
-    return "\ufffd";
+    return 0xfffd;
   }
 }
 
