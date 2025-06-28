@@ -96,8 +96,8 @@ describe("MUtf8Encoder.encode()", () => {
   });
 
   test.each(testdata)("encode the text: $text", ({ text, binary }) => {
-    const decoder = new MUtf8Decoder();
-    expect(decoder.decode(binary)).toBe(text);
+    const encoder = new MUtf8Encoder();
+    expect(encoder.encode(text)).toEqual(binary);
   });
 });
 
