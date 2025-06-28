@@ -128,7 +128,9 @@ export class MUtf8Decoder {
 
   #ignoreBOM: boolean;
 
-  #leavings?: Uint8Array;
+  #leavings = new Uint8Array(3);
+
+  #leavingsLength = 0;
 
   /**
    * The encoding name for this decoder.
@@ -211,7 +213,7 @@ export class MUtf8Decoder {
         // U+0000, U+0080-07FF
         if (length <= bp) {
           if (stream) {
-            this.#leavings = bytes.slice(bp - 1);
+            this.#setLeavings(bytes, bp - 1);
             break;
           }
           codes[cp++] = this.#handleError();
@@ -228,7 +230,7 @@ export class MUtf8Decoder {
         // U+0800-FFFF
         if (length <= bp + 1) {
           if (stream) {
-            this.#leavings = bytes.slice(bp - 1);
+            this.#setLeavings(bytes, bp - 1);
             break;
           }
           codes[cp++] = this.#handleError();
@@ -265,17 +267,22 @@ export class MUtf8Decoder {
     } else {
       bin = new Uint8Array("buffer" in input ? input.buffer : input);
     }
-    if (!this.#leavings) {
+    if (!this.#leavingsLength) {
       return bin;
     }
-    const combined = new Uint8Array(this.#leavings.length + bin.length);
-    combined.set(this.#leavings, 0);
-    combined.set(bin, this.#leavings.length);
-    this.#leavings = undefined;
+    const combined = new Uint8Array(this.#leavingsLength + bin.length);
+    combined.set(this.#leavings.subarray(0, this.#leavingsLength));
+    combined.set(bin, this.#leavingsLength);
+    this.#leavingsLength = 0;
     return combined;
   }
 
-  #handleError() {
+  #setLeavings(bytes: Uint8Array, startIndex: number): void {
+    this.#leavings.set(bytes.subarray(startIndex));
+    this.#leavingsLength = bytes.length - startIndex;
+  }
+
+  #handleError(): number {
     if (this.fatal) {
       throw new TypeError("MUtf8Decoder.decode: Decoding failed.");
     }
