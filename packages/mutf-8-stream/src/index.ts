@@ -26,7 +26,7 @@ import { type AllowSharedBufferSource, MUtf8Decoder, MUtf8Encoder, type TextDeco
  * @since v1.2.0
  */
 export class MUtf8DecoderStream extends TransformStream<AllowSharedBufferSource, string> {
-  #decoder: MUtf8Decoder;
+  readonly #decoder: MUtf8Decoder;
 
   /**
    * The encoding name for this decoder.
