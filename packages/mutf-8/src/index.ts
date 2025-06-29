@@ -199,7 +199,7 @@ export class MUtf8Decoder {
    */
   decode(input: AllowSharedBufferSource, options: TextDecodeOptions = {}): string {
     const stream = options.stream ?? false;
-    const bytes = this.#toBinary(input);
+    const bytes = this.#toU8Array(input);
     const length = bytes.length;
     const codes = new Array<number>(length);
     let bp = 0;
@@ -260,19 +260,21 @@ export class MUtf8Decoder {
     return String.fromCharCode(...(cp === codes.length ? codes : codes.slice(0, cp)));
   }
 
-  #toBinary(input: AllowSharedBufferSource): Uint8Array {
-    let bin: Uint8Array;
+  #toU8Array(input: AllowSharedBufferSource): Uint8Array {
+    let bytes: Uint8Array;
     if (input instanceof Uint8Array) {
-      bin = input;
+      bytes = input;
+    } else if ("buffer" in input) {
+      bytes = new Uint8Array(input.buffer, input.byteOffset);
     } else {
-      bin = new Uint8Array("buffer" in input ? input.buffer : input);
+      bytes = new Uint8Array(input);
     }
     if (!this.#leavingsLength) {
-      return bin;
+      return bytes;
     }
-    const combined = new Uint8Array(this.#leavingsLength + bin.length);
+    const combined = new Uint8Array(this.#leavingsLength + bytes.byteLength);
     combined.set(this.#leavings.subarray(0, this.#leavingsLength));
-    combined.set(bin, this.#leavingsLength);
+    combined.set(bytes, this.#leavingsLength);
     this.#leavingsLength = 0;
     return combined;
   }
