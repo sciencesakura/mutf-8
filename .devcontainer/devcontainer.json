@@ -1,15 +1,25 @@
 {
-  "name": "mutf-8",
+  "name": "mutf-8.dev",
   "build": {
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "node",
+  "postCreateCommand": "npm ci --ignore-scripts=true",
   "customizations": {
     "vscode": {
       "extensions": ["EditorConfig.EditorConfig", "biomejs.biome"],
       "settings": {
+        "biome.configurationPath": "biome.json",
+        "biome.suggestInstallingGlobally": false,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit",
+          "source.organizeImports": "always"
+        },
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "biomejs.biome"
+        "editor.defaultFormatter": "EditorConfig.EditorConfig",
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        }
       }
     }
   }
