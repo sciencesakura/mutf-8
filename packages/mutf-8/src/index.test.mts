@@ -19,7 +19,7 @@ describe("MUtf8Decoder.decode()", () => {
   test("when ignoreBOM is true, the decoder retains the leading U+FEFF", () => {
     const decoder = new MUtf8Decoder("mutf-8", { ignoreBOM: true });
     expect(decoder.ignoreBOM).toBe(true);
-    // biome-ignore format:
+    // biome-ignore format: formated binary array
     const src = new Uint8Array([
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
@@ -30,7 +30,7 @@ describe("MUtf8Decoder.decode()", () => {
   test("when ignoreBOM is false, the decoder ignores the leading U+FEFF", () => {
     const decoder = new MUtf8Decoder("mutf-8", { ignoreBOM: false });
     expect(decoder.ignoreBOM).toBe(false);
-    // biome-ignore format:
+    // biome-ignore format: formated binary array
     const src = new Uint8Array([
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
       0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
