@@ -1,4 +1,4 @@
-FROM node:22
+FROM node:24
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG GROOVY_VERSION=4.0.27
