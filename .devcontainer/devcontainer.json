@@ -13,13 +13,10 @@
         "biome.suggestInstallingGlobally": false,
         "editor.codeActionsOnSave": {
           "source.fixAll": "explicit",
-          "source.organizeImports": "always"
+          "source.organizeImports": "explicit"
         },
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "EditorConfig.EditorConfig",
-        "[typescriptreact]": {
-          "editor.defaultFormatter": "biomejs.biome"
-        }
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true
       }
     }
   }

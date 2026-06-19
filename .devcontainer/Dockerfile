@@ -1,37 +1,34 @@
-ARG GROOVY_VERSION=5.0.4
+FROM node:24-alpine
 
-
-FROM alpine:3.23 AS groovy-install
-ARG GROOVY_VERSION
-
-RUN apk update && \
-    apk add curl unzip && \
-    curl -fsSLO "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-$GROOVY_VERSION.zip" && \
-    unzip "apache-groovy-binary-$GROOVY_VERSION.zip" -d /groovy
-
-
-FROM node:24-slim
-ARG GROOVY_VERSION
-ARG DEBIAN_FRONTEND=noninteractive
+ARG USERNAME=node
+ARG GROOVY_VERSION=5.0.6
 
 # Set `DEVCONTAINER` environment variable to help with orientation
 ENV DEVCONTAINER=true
 
-COPY --from=groovy-install /groovy /usr/local/
-
-RUN apt-get update && \
-    apt-get dist-upgrade -y --no-install-recommends && \
-    apt-get install -y --no-install-recommends \
+RUN apk update \
+    && apk add --no-cache \
+      bash \
+      bash-completion \
       git \
-      openjdk-17-jdk-headless \
-      sudo && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    usermod -aG sudo node && \
-    echo "node ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/node && \
-    ln -s "/usr/local/groovy-$GROOVY_VERSION/bin/groovy" /usr/local/bin/groovy && \
-    ln -s "/usr/local/groovy-$GROOVY_VERSION/bin/groovyc" /usr/local/bin/groovyc && \
-    ln -s "/usr/local/groovy-$GROOVY_VERSION/bin/groovydoc" /usr/local/bin/groovydoc && \
-    ln -s "/usr/local/groovy-$GROOVY_VERSION/bin/groovysh" /usr/local/bin/groovysh
+      openjdk21-jdk \
+      sudo \
+      unzip \
+    && sed -i -E "s@^($USERNAME:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:).+@\1/bin/bash@" /etc/passwd \
+    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/$USERNAME \
+    && wget -q -O apache-groovy-binary.zip "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-$GROOVY_VERSION.zip" \
+    && unzip -o -q apache-groovy-binary.zip -d /opt \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/grape"     /usr/local/bin/ \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovy"    /usr/local/bin/ \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovyc"   /usr/local/bin/ \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovydoc" /usr/local/bin/ \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovysh"  /usr/local/bin/ \
+    && npm completion >/usr/share/bash-completion/completions/npm \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/grape_completion"     /usr/share/bash-completion/completions/grape \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovy_completion"    /usr/share/bash-completion/completions/groovy \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovyc_completion"   /usr/share/bash-completion/completions/groovyc \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovydoc_completion" /usr/share/bash-completion/completions/groovydoc \
+    && ln -s "/opt/groovy-$GROOVY_VERSION/bin/groovysh_completion"  /usr/share/bash-completion/completions/groovysh \
+    && rm apache-groovy-binary.zip
 
-USER node
+USER $USERNAME
