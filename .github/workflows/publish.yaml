@@ -1,5 +1,10 @@
 name: publish
 on: workflow_dispatch
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -14,9 +19,5 @@ jobs:
         run: npm ci --ignore-scripts=true
       - name: Publish core package
         run: npm publish --workspace=packages/mutf-8
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish streaming package
         run: npm publish --workspace=packages/mutf-8-stream
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
