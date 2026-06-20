@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from "vitest";
-import testdata from "../../../testdata.mjs";
 import { MUtf8Decoder, MUtf8Encoder } from "./index.js";
+import texts from "./texts.test-data.mjs";
 
 describe("MUtf8Decoder.decode()", () => {
-  test.each(testdata)("decode a byte sequence representing the text: $text", ({ text, binary }) => {
+  test("decode a byte sequence representing a null character", () => {
+    const decoder = new MUtf8Decoder();
+    expect(decoder.decode(new Uint8Array([0xc0, 0x80]))).toBe("\u0000");
+  });
+
+  test.each(texts)("decode a byte sequence representing $text", ({ text, binary }) => {
     const decoder = new MUtf8Decoder();
     expect(decoder.decode(binary)).toBe(text);
   });
@@ -352,7 +357,12 @@ describe("MUtf8Encoder.encode()", () => {
     expect(encoder.encode("")).toEqual(new Uint8Array(0));
   });
 
-  test.each(testdata)("encode the text: $text", ({ text, binary }) => {
+  test("encode a null character", () => {
+    const encoder = new MUtf8Encoder();
+    expect(encoder.encode("\u0000")).toEqual(new Uint8Array([0xc0, 0x80]));
+  });
+
+  test.each(texts)("encode $text", ({ text, binary }) => {
     const encoder = new MUtf8Encoder();
     expect(encoder.encode(text)).toEqual(binary);
   });
@@ -366,7 +376,14 @@ describe("MUtf8Encoder.encodeInto()", () => {
     expect(dest).toEqual(new Uint8Array(0));
   });
 
-  test.each(testdata)("encode the text: $text", ({ text, binary }) => {
+  test("encode a null character", () => {
+    const dest = new Uint8Array(2);
+    const encoder = new MUtf8Encoder();
+    expect(encoder.encodeInto("\u0000", dest)).toEqual({ read: 1, written: 2 });
+    expect(dest).toEqual(new Uint8Array([0xc0, 0x80]));
+  });
+
+  test.each(texts)("encode $text", ({ text, binary }) => {
     const dest = new Uint8Array(binary.length);
     const encoder = new MUtf8Encoder();
     expect(encoder.encodeInto(text, dest)).toEqual({ read: text.length, written: binary.length });

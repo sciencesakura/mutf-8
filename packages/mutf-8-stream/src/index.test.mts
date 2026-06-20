@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from "vitest";
-import testdata from "../../../testdata.mjs";
 import { MUtf8DecoderStream, MUtf8EncoderStream } from "./index.js";
+import texts from "./texts.test-data.mjs";
 
 describe("MUtf8DecoderStream", () => {
   async function readAll(stream: ReadableStream<string>): Promise<string> {
@@ -23,7 +23,7 @@ describe("MUtf8DecoderStream", () => {
     await expect(readAll(decodingStream)).resolves.toBe("");
   });
 
-  test.each(testdata)("decode a chunked byte sequence representing the text: $text", async ({ text, binary }) => {
+  test.each(texts)("decode a chunked byte sequence representing $text", async ({ text, binary }) => {
     const decoder = new MUtf8DecoderStream();
     const writer = decoder.writable.getWriter();
     // Split the binary into chunks of 5 bytes
@@ -76,7 +76,7 @@ describe("MUtf8EncoderStream", () => {
     await expect(readAll(encodingStream)).resolves.toEqual(new Uint8Array(0));
   });
 
-  test.each(testdata)("encode the text: $text", async ({ text, binary }) => {
+  test.each(texts)("encode $text", async ({ text, binary }) => {
     const encoder = new MUtf8EncoderStream();
     const writer = encoder.writable.getWriter();
     // Split the text into chunks of 3 characters
