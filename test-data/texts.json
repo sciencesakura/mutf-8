@@ -1,9 +1,5 @@
 [
   {
-    "name": "The null character",
-    "text": "\u0000"
-  },
-  {
     "name": "A character whose code point is between U+0001 and U+007F",
     "text": "A"
   },

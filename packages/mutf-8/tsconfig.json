@@ -6,5 +6,5 @@
     "outDir": "dist"
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*", "src/**/*.bench.*"]
+  "exclude": ["src/**/*.test.*", "src/**/*.test-data.*", "src/**/*.bench.*"]
 }

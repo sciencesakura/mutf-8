@@ -15,8 +15,7 @@
     "compile": "npm run compile --workspaces",
     "docs": "typedoc --out docs",
     "lint": "npm run lint --workspaces",
-    "test": "npm run test --workspaces",
-    "testdata": "./scripts/gen-testdatacode.groovy testdata.json"
+    "test": "npm run test --workspaces"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",

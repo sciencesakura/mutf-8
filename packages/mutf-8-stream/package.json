@@ -44,6 +44,7 @@
     "lint:ci": "biome check src",
     "prepack": "cpx ../../{LICENSE,README.md} .",
     "prepublishOnly": "npm run build",
+    "test-data": "../../scripts/gen-test-data-code.groovy ../../test-data src",
     "test": "vitest run --typecheck.tsconfig tsconfig.test.json"
   },
   "dependencies": {
