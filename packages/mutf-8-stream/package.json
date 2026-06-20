@@ -1,6 +1,6 @@
 {
   "name": "mutf-8-stream",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A TypeScript/JavaScript library for encoding and decoding Modified UTF-8, the character encoding variant used in the Java platform for class files, object serialization, and other Java technologies.",
   "keywords": [
     "charset",
