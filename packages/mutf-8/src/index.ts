@@ -265,7 +265,7 @@ export class MUtf8Decoder {
     if (input instanceof Uint8Array) {
       bytes = input;
     } else if ("buffer" in input) {
-      bytes = new Uint8Array(input.buffer, input.byteOffset);
+      bytes = new Uint8Array(input.buffer, input.byteOffset, input.byteLength);
     } else {
       bytes = new Uint8Array(input);
     }
