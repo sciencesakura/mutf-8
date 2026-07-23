@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump brace-expansion from 5.0.6 to 5.0.7 (https://github.com/sciencesakura/mutf-8/pull/79).
 - Bump shell-quote from 1.8.4 to 1.10.0 (https://github.com/sciencesakura/mutf-8/pull/80).
 - build: Upgrade Node.js from 24.13.1 to 24.18.0 (https://github.com/sciencesakura/mutf-8/pull/81).
+- ci: Reduce redundant CI runs (https://github.com/sciencesakura/mutf-8/pull/82).
 
 ## [1.2.3] - 2026-06-20
 ### Changed

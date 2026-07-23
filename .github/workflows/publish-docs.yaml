@@ -1,5 +1,17 @@
 name: publish docs
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/publish-docs.yaml'
+      - 'package.json'
+      - 'packages/**'
+      - '!packages/**/*.bench.*'
+      - '!packages/**/*.test.*'
+      - 'README.md'
+      - 'tsconfig.json'
+
 jobs:
   publish-api-docs:
     runs-on: ubuntu-latest

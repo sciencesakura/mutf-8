@@ -1,9 +1,25 @@
 name: build
 on:
   pull_request:
+    paths:
+      - '.editorconfig'
+      - '.github/workflows/build.yaml'
+      - 'biome.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'packages/**'
+      - 'tsconfig.json'
   push:
     branches:
       - master
+    paths:
+      - '.editorconfig'
+      - '.github/workflows/build.yaml'
+      - 'biome.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'packages/**'
+      - 'tsconfig.json'
 
 jobs:
   build:
