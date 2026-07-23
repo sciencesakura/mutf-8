@@ -40,7 +40,7 @@
     "check": "run-s lint test",
     "compile": "run-s compile:*",
     "compile:cjs": "tsc && renamer --force --find '/\\.js$/' --replace .cjs 'dist/**'",
-    "compile:esm": "tsc -m es2022 --moduleResolution node10 -d && renamer --force --find '/\\.js$/' --replace .mjs 'dist/**'",
+    "compile:esm": "tsc -m es2022 --moduleResolution bundler -d && renamer --force --find '/\\.js$/' --replace .mjs 'dist/**'",
     "build": "run-s check compile",
     "prepack": "cpx ../../{LICENSE,README.md} .",
     "lint:ci": "biome check src",
