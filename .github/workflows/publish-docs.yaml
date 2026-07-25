@@ -11,6 +11,7 @@ on:
       - '!packages/**/*.test.*'
       - 'README.md'
       - 'tsconfig.json'
+      - 'typedoc.json'
 
 jobs:
   publish-api-docs:

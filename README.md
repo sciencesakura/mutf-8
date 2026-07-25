@@ -11,7 +11,7 @@ Modified UTF-8 is a variant of UTF-8 encoding used internally by the Java platfo
 - **Null character**: The null character U+0000 is encoded as a 2-byte sequence 0xC0 0x80 instead of the single byte 0x00.
 - **Supplementary characters**: Characters whose code points are above U+FFFF are encoded as two 3-byte sequences instead of a single 4-byte sequence.
 
-See [The Java Virtual Machine Specification, Java SE 21 Edition, Section 4.4.7](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7) for more details.
+See [The Java Virtual Machine Specification, Java SE 25 Edition, Section 4.4.7](https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.4.7) for more details.
 
 ## Installation
 
@@ -33,7 +33,7 @@ npm install mutf-8-stream
 
 ## Usage
 
-The APIs are compatible with the [WHATWG Encoding Standard](https://encoding.spec.whatwg.org/) standard, providing a simple interface for encoding and decoding Modified UTF-8.
+The APIs are compatible with the [WHATWG Encoding Standard](https://encoding.spec.whatwg.org/), providing a simple interface for encoding and decoding Modified UTF-8.
 
 ### Basic Encoding and Decoding
 

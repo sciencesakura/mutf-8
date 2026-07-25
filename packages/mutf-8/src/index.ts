@@ -121,7 +121,7 @@ export type AllowSharedBufferSource = ArrayBuffer | SharedArrayBuffer | ArrayBuf
  * ```
  *
  * @see {@link https://encoding.spec.whatwg.org/#interface-textdecoder | WHATWG Encoding Standard, TextDecoder}
- * @see {@link https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 21 Edition, Section 4.4.7}
+ * @see {@link https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 25 Edition, Section 4.4.7}
  */
 export class MUtf8Decoder {
   readonly #fatal: boolean;
@@ -311,7 +311,7 @@ export class MUtf8Decoder {
  * ```
  *
  * @see {@link https://encoding.spec.whatwg.org/#interface-textencoder | WHATWG Encoding Standard, TextEncoder}
- * @see {@link https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 21 Edition, Section 4.4.7}
+ * @see {@link https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 25 Edition, Section 4.4.7}
  */
 export class MUtf8Encoder {
   /**
