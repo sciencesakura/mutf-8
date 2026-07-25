@@ -22,7 +22,7 @@ import { type AllowSharedBufferSource, MUtf8Decoder, MUtf8Encoder, type TextDeco
  * ```
  *
  * @see {@link https://encoding.spec.whatwg.org/#interface-textdecoderstream | WHATWG Encoding Standard, TextDecoderStream}
- * @see {@link https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 21 Edition, Section 4.4.7}
+ * @see {@link https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 25 Edition, Section 4.4.7}
  * @since v1.2.0
  */
 export class MUtf8DecoderStream extends TransformStream<AllowSharedBufferSource, string> {
@@ -99,7 +99,7 @@ export class MUtf8DecoderStream extends TransformStream<AllowSharedBufferSource,
  * ```
  *
  * @see {@link https://encoding.spec.whatwg.org/#interface-textencoderstream | WHATWG Encoding Standard, TextEncoderStream}
- * @see {@link https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 21 Edition, Section 4.4.7}
+ * @see {@link https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.4.7 | The Java Virtual Machine Specification, Java SE 25 Edition, Section 4.4.7}
  * @since v1.2.0
  */
 export class MUtf8EncoderStream extends TransformStream<string, Uint8Array> {
