@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump shell-quote from 1.8.4 to 1.10.0 (https://github.com/sciencesakura/mutf-8/pull/80).
 - build: Upgrade Node.js from 24.13.1 to 24.18.0 (https://github.com/sciencesakura/mutf-8/pull/81).
 - ci: Reduce redundant CI runs (https://github.com/sciencesakura/mutf-8/pull/82).
+- chore(deps): Upgrade TypeScript from 5.9 to 6.0 (https://github.com/sciencesakura/mutf-8/pull/83).
+- docs: Change the edition of JVMS from 21 to 25 (https://github.com/sciencesakura/mutf-8/pull/86).
 
 ## [1.2.3] - 2026-06-20
 ### Changed
