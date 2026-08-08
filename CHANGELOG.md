@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Bump actions/setup-node from 6 to 7 (https://github.com/sciencesakura/mutf-8/pull/84).
 
 ## [1.2.4] - 2026-07-25
 ### Add
