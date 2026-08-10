@@ -17,7 +17,7 @@
     "docs": "typedoc --out docs"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.5",
+    "@biomejs/biome": "^2.5.6",
     "cpx2": "^9.0.0",
     "npm-run-all2": "^9.0.3",
     "renamer": "^5.0.3",
