@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump npm-run-all2 from 9.0.2 to 9.0.3 (https://github.com/sciencesakura/mutf-8/pull/87).
 - Bump @biomejs/biome from 2.5.5 to 2.5.6 (https://github.com/sciencesakura/mutf-8/pull/88).
 - Bump postcss from 8.5.22 to 8.5.26 (https://github.com/sciencesakura/mutf-8/pull/89).
+- Bump cpx2 from 9.0.0 to 9.0.3 (https://github.com/sciencesakura/mutf-8/pull/97).
+- Bump @biomejs/biome from 2.5.6 to 2.5.14 (https://github.com/sciencesakura/mutf-8/pull/98).
+- Bump vitest from 4.1.10 to 5.0.0 (https://github.com/sciencesakura/mutf-8/pull/99).
+- build: Migrate from volta to mise (https://github.com/sciencesakura/mutf-8/pull/102).
+- Bump brace-expansion from 5.0.7 to 5.0.12 (https://github.com/sciencesakura/mutf-8/pull/100).
+- Bump markdown-it from 14.3.0 to 14.3.2 (https://github.com/sciencesakura/mutf-8/pull/101).
+- build: Migrate from npm to pnpm (https://github.com/sciencesakura/mutf-8/pull/103).
 
 ## [1.2.4] - 2026-07-25
 ### Add
