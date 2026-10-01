@@ -1,6 +1,6 @@
 {
   "name": "mutf-8-root",
-  "version": "0.0.1",
+  "version": "1.2.4",
   "private": true,
   "license": "MIT",
   "author": "sciencesakura <sakurasakurascience@gmail.com>",
@@ -9,11 +9,6 @@
     "packages/mutf-8-stream"
   ],
   "scripts": {
-    "clean": "npm run clean --workspaces",
-    "test-data": "npm run test-data --workspaces",
-    "test": "npm run test --workspaces",
-    "check": "npm run check --workspaces",
-    "build": "npm run build --workspaces",
     "docs": "typedoc --out docs"
   },
   "devDependencies": {
