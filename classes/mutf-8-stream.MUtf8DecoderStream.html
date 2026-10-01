@@ -12,7 +12,7 @@
 <li><a href="" aria-current="page">MUtf8DecoderStream</a></li></ul>
 <h1>Class MUtf8DecoderStream</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>The streaming equivalent of <a href="mutf-8.MUtf8Decoder.html" class="tsd-kind-class">MUtf8Decoder</a>.</p>
+<div class="tsd-comment tsd-typography"><p>The streaming equivalent of MUtf8Decoder.</p>
 <p>This transform stream provides efficient decoding of Modified UTF-8 data in streaming scenarios, allowing you to
 process large amounts of data without loading everything into memory.</p>
 </div>
@@ -34,11 +34,11 @@ process large amounts of data without loading everything into memory.</p>
 <section class="tsd-panel tsd-hierarchy" data-refl="114">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li class="tsd-hierarchy-item"><span class="tsd-signature-type">TransformStream</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/mutf-8.AllowSharedBufferSource.html" class="tsd-signature-type tsd-kind-type-alias">AllowSharedBufferSource</a><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span>
+<li class="tsd-hierarchy-item"><span class="tsd-signature-type">TransformStream</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AllowSharedBufferSource</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span>
 <ul class="tsd-hierarchy">
 <li class="tsd-hierarchy-item"><span class="tsd-hierarchy-target">MUtf8DecoderStream</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/3b269147dce788b44b2c9abc397916907cd1169c/packages/mutf-8-stream/src/index.ts#L28">packages/mutf-8-stream/src/index.ts:28</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/8eb9292057b7effe801e79c4f87816c4fdf4bece/packages/mutf-8-stream/src/index.ts#L28">packages/mutf-8-stream/src/index.ts:28</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -66,7 +66,7 @@ process large amounts of data without loading everything into memory.</p>
 <h3 class="tsd-anchor-link" id="constructor"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
-<div class="tsd-signature tsd-anchor-link" id="constructormutf8decoderstream"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">MUtf8DecoderStream</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">label</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?:</span> <a href="../interfaces/mutf-8.TextDecoderOptions.html" class="tsd-signature-type tsd-kind-interface">TextDecoderOptions</a><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">MUtf8DecoderStream</a><a href="#constructormutf8decoderstream" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-signature tsd-anchor-link" id="constructormutf8decoderstream"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">MUtf8DecoderStream</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">label</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">TextDecoderOptions</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">MUtf8DecoderStream</a><a href="#constructormutf8decoderstream" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -74,7 +74,7 @@ process large amounts of data without loading everything into memory.</p>
 <li><span><span class="tsd-kind-parameter">label</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;mutf-8&quot;</span></span>
 <div class="tsd-comment tsd-typography"><p>The encoding label. Must be <code>&quot;mutf-8&quot;</code> or <code>&quot;mutf8&quot;</code> (case-insensitive)</p>
 </div></li>
-<li><span><span class="tsd-kind-parameter">options</span>: <a href="../interfaces/mutf-8.TextDecoderOptions.html" class="tsd-signature-type tsd-kind-interface">TextDecoderOptions</a><span class="tsd-signature-symbol"> = {}</span></span>
+<li><span><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type">TextDecoderOptions</span><span class="tsd-signature-symbol"> = {}</span></span>
 <div class="tsd-comment tsd-typography"><p>Configuration options for the decoder behavior</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">MUtf8DecoderStream</a></h4>
@@ -84,7 +84,7 @@ process large amounts of data without loading everything into memory.</p>
 </div></div><aside class="tsd-sources">
 <p>Overrides TransformStream&lt;AllowSharedBufferSource, string&gt;.constructor</p>
 <ul>
-<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/3b269147dce788b44b2c9abc397916907cd1169c/packages/mutf-8-stream/src/index.ts#L71">packages/mutf-8-stream/src/index.ts:71</a></li></ul></aside></div></li></ul></section></section></details>
+<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/8eb9292057b7effe801e79c4f87816c4fdf4bece/packages/mutf-8-stream/src/index.ts#L71">packages/mutf-8-stream/src/index.ts:71</a></li></ul></aside></div></li></ul></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -96,16 +96,16 @@ process large amounts of data without loading everything into memory.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from TransformStream.readable</p>
 <ul>
-<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:37109</li></ul></aside></section>
+<li>Defined in node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.dom.d.ts:37109</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external">
 <h3 class="tsd-anchor-link" id="writable"><code class="tsd-tag">Readonly</code><span>writable</span><a href="#writable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">writable</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WritableStream</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/mutf-8.AllowSharedBufferSource.html" class="tsd-signature-type tsd-kind-type-alias">AllowSharedBufferSource</a><span class="tsd-signature-symbol">&gt;</span></div>
+<div class="tsd-signature"><span class="tsd-kind-property">writable</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WritableStream</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AllowSharedBufferSource</span><span class="tsd-signature-symbol">&gt;</span></div>
 <div class="tsd-comment tsd-typography"><p>The <strong><code>writable</code></strong> read-only property of the TransformStream interface returns the WritableStream instance controlled by this TransformStream. This stream accepts input data that will be transformed and emitted to the readable stream.</p>
 <p><a href="https://developer.mozilla.org/docs/Web/API/TransformStream/writable">MDN Reference</a></p>
 </div><aside class="tsd-sources">
 <p>Inherited from TransformStream.writable</p>
 <ul>
-<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:37115</li></ul></aside></section></section></details>
+<li>Defined in node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.dom.d.ts:37115</li></ul></aside></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Accessors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="accessors-1">Accessors<a href="#accessors-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -121,7 +121,7 @@ process large amounts of data without loading everything into memory.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>Always <code>&quot;mutf-8&quot;</code></p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/3b269147dce788b44b2c9abc397916907cd1169c/packages/mutf-8-stream/src/index.ts#L38">packages/mutf-8-stream/src/index.ts:38</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/8eb9292057b7effe801e79c4f87816c4fdf4bece/packages/mutf-8-stream/src/index.ts#L38">packages/mutf-8-stream/src/index.ts:38</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="fatal"><span>fatal</span><a href="#fatal" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -135,7 +135,7 @@ process large amounts of data without loading everything into memory.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p><code>true</code> if error mode is fatal, otherwise <code>false</code></p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/3b269147dce788b44b2c9abc397916907cd1169c/packages/mutf-8-stream/src/index.ts#L50">packages/mutf-8-stream/src/index.ts:50</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/8eb9292057b7effe801e79c4f87816c4fdf4bece/packages/mutf-8-stream/src/index.ts#L50">packages/mutf-8-stream/src/index.ts:50</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="ignorebom"><span>ignore<wbr/>BOM</span><a href="#ignorebom" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -149,7 +149,7 @@ treated as regular characters.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p><code>true</code> if BOM should be ignored, otherwise <code>false</code></p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/3b269147dce788b44b2c9abc397916907cd1169c/packages/mutf-8-stream/src/index.ts#L62">packages/mutf-8-stream/src/index.ts:62</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/sciencesakura/mutf-8/blob/8eb9292057b7effe801e79c4f87816c4fdf4bece/packages/mutf-8-stream/src/index.ts#L62">packages/mutf-8-stream/src/index.ts:62</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
