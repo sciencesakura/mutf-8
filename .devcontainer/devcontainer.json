@@ -1,20 +1,19 @@
 {
-  "name": "mutf-8.dev",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "name": "${localWorkspaceFolderBasename}.dev",
+  "image": "node:24-alpine",
   "remoteUser": "node",
-  "postCreateCommand": "npm ci --ignore-scripts=true",
+  "postCreateCommand": ".devcontainer/onCreateCommand.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "installOhMyZsh": false,
+      "installOhMyZshConfig": false
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": ["EditorConfig.EditorConfig", "biomejs.biome"],
       "settings": {
-        "biome.configurationPath": "biome.json",
-        "biome.suggestInstallingGlobally": false,
-        "editor.codeActionsOnSave": {
-          "source.fixAll": "explicit",
-          "source.organizeImports": "explicit"
-        },
         "editor.defaultFormatter": "biomejs.biome",
         "editor.formatOnSave": true
       }
