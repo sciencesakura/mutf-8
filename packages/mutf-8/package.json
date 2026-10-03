@@ -42,7 +42,6 @@
     "compile:cjs": "tsc && renamer --force --find '/\\.js$/' --replace .cjs 'dist/**'",
     "compile:esm": "tsc -m es2022 --moduleResolution bundler -d && renamer --force --find '/\\.js$/' --replace .mjs 'dist/**'",
     "build": "run-s check compile",
-    "prepack": "cpx ../../README.md .",
     "lint:ci": "biome check src",
     "check:ci": "run-s lint:ci test",
     "build:ci": "run-s check:ci compile",
