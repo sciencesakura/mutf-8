@@ -1,22 +1,21 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "files": {
+    "includes": ["**", "!**/*.test-data.*"]
+  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
   },
-  "files": {
-    "includes": ["**", "!**/*.test-data.*"],
-    "ignoreUnknown": false
+  "linter": {
+    "rules": { "preset": "recommended" }
+  },
+  "assist": {
+    "actions": { "recommended": true }
   },
   "formatter": {
     "useEditorconfig": true,
     "lineWidth": 120
-  },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
-  "linter": {
-    "rules": {
-      "preset": "recommended"
-    }
   }
 }
