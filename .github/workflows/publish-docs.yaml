@@ -1,4 +1,5 @@
 name: publish docs
+
 on:
   push:
     branches:
@@ -12,6 +13,10 @@ on:
       - 'README.md'
       - 'tsconfig.json'
       - 'typedoc.json'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   publish-api-docs:
