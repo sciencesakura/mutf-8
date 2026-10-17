@@ -1,11 +1,11 @@
 name: publish docs
+
 on:
   push:
     branches:
       - master
     paths:
       - '.github/workflows/publish-docs.yaml'
-      - 'mise.toml'
       - 'package.json'
       - 'packages/**'
       - '!packages/**/*.bench.*'
@@ -14,14 +14,18 @@ on:
       - 'tsconfig.json'
       - 'typedoc.json'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   publish-api-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v4
-      - name: Install dependencies
-        run: pnpm ci
+      - uses: pnpm/setup@v3
+        with:
+          version: ~12
       - name: Compile
         run: pnpm -r run compile
       - name: Generate TypeDoc pages

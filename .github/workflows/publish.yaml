@@ -1,17 +1,21 @@
 name: publish
+
 on: workflow_dispatch
 
 permissions:
   id-token: write
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v4
-      - name: Install dependencies
-        run: pnpm ci
+      - uses: pnpm/setup@v3
+        with:
+          version: ~12
       - name: Publish packages
         run: pnpm -r publish
